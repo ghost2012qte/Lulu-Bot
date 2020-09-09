@@ -8,7 +8,7 @@ export class ChannelCommand extends Command {
         return str.indexOf('channel') > -1;
     }
 
-    execute(msg: Discord.Message, bot: Discord.Client) {
+    execute(msg: Discord.Message) {
         let answer = '\n';
         for (let ch of msg.guild?.channels.cache || []) {
             answer += `${ch[1].id} ${ch[1].name} ${ch[1].type}\n`;

@@ -11,8 +11,8 @@ class Program {
         const token = this.parseToken();
 
         if (!token) {
-            console.log('set token as argument --token=BOT_TOKEN ');
-            return;
+            console.log('set token as argument --token=TOKEN');
+            process.exit(5);
         }
 
         bot.on('ready', () => {
@@ -24,7 +24,7 @@ class Program {
             if (msg.content.startsWith(config.command_prefix)) {
                 for (let c of Commands) {
                     if (c.match(msg.content)) {
-                        c.execute(msg, bot);
+                        c.execute(msg);
                         break;
                     }
                 }                    
