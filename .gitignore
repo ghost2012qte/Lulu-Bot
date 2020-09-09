@@ -2,4 +2,3 @@ node_modules/
 out/
 storage/
 .vscode/
-config.ts

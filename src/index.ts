@@ -8,6 +8,13 @@ class Program {
 
     main() {
 
+        const token = this.parseToken();
+
+        if (!token) {
+            console.log('set token as argument --token=BOT_TOKEN ');
+            return;
+        }
+
         bot.on('ready', () => {
             console.log('Lulu ready!');
             bot.user.setActivity({type: 'WATCHING', name: 'в душу'});
@@ -24,7 +31,7 @@ class Program {
             }
         })
 
-        bot.login(config.token);
+        bot.login(token);
     }
 
     generateGrabTime() {        
@@ -37,6 +44,11 @@ class Program {
         next.setMinutes(mins);
 
         return next;
+    }
+
+    parseToken() {
+        const match = process.argv.find(arg => arg.indexOf('--token') > -1)?.match(/--token=(.*)/);
+        return match ? match[1] : null;
     }
 }
 
