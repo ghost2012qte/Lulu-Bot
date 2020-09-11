@@ -1,19 +1,20 @@
 import bot from './bot';
+import Discord from 'discord.js';
 import config from './config';
 import Commands from './commands/@commands';
+import { Emoji } from './emojis';
 
 class Program {
-    
-    grabTime = false;
 
     main() {
 
         const token = this.parseToken();
 
         if (!token) {
-            console.log('set token as argument --token=TOKEN');
+            console.log('NO TOKEN WAS PROVIDES! Set token as arg [--token=TOKEN]');
             process.exit(5);
         }
+        console.log('Token was found: ' + token);
 
         bot.on('ready', () => {
             console.log('Lulu ready!');
@@ -21,17 +22,24 @@ class Program {
         })
 
         bot.on('message', msg => {
-            if (msg.content.startsWith(config.command_prefix)) {
+
+            if (msg.content.indexOf('emoji') > -1) msg.reply(Emoji.lulu_awaken);
+
+            if (msg.content.startsWith(config.command_prefix) && this.isOwnerOrCrator(msg)) {
                 for (let c of Commands) {
                     if (c.match(msg.content)) {
                         c.execute(msg);
                         break;
                     }
-                }                    
+                }
             }
         })
 
         bot.login(token);
+    }
+
+    isOwnerOrCrator(msg: Discord.Message) {
+        return msg.author.id == msg.guild.ownerID || msg.author.id == config.creator_id;
     }
 
     generateGrabTime() {        

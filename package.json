@@ -1,27 +1,27 @@
 {
-  "name": "haw-haw_bot",
-  "version": "1.0.0",
-  "description": "discord bot",
-  "main": "./out/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node ./out/index.js",
-    "build": "tsc"
-  },
-  "keywords": [
-    "discord",
-    "bot",
-    "haw-haw"
-  ],
-  "author": "Alex Caulfield",
-  "license": "MIT",
-  "dependencies": {
-    "@types/node": "^14.0.13",
-    "@types/ws": "^7.2.5",
-    "discord.js": "^12.2.0",
-    "node-localstorage": "^2.1.6"
-  },
-  "devDependencies": {
-    "@types/node-localstorage": "^1.3.0"
-  }
+    "name": "haw-haw_bot",
+    "version": "1.0.0",
+    "description": "discord bot",
+    "main": "./out/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "tsc && node ./out/index.js",
+        "build": "tsc"
+    },
+    "keywords": [
+        "discord",
+        "bot",
+        "haw-haw"
+    ],
+    "author": "Alex Caulfield",
+    "license": "MIT",
+    "dependencies": {
+        "@types/node": "^14.0.13",
+        "@types/ws": "^7.2.5",
+        "discord.js": "^12.2.0",
+        "node-localstorage": "^2.1.6"
+    },
+    "devDependencies": {
+        "@types/node-localstorage": "^1.3.0"
+    }
 }
