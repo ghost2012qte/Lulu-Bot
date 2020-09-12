@@ -1,6 +1,5 @@
 import { Command } from "./@command-base";
-
-import Discord from 'discord.js';
+import { Message } from 'discord.js';
 
 export class ChannelCommand extends Command {
 
@@ -8,7 +7,7 @@ export class ChannelCommand extends Command {
         return str.indexOf('channel') > -1;
     }
 
-    execute(msg: Discord.Message) {
+    execute(msg: Message) {
         let answer = '\n';
         for (let ch of msg.guild?.channels.cache || []) {
             answer += `${ch[1].id} ${ch[1].name} ${ch[1].type}\n`;

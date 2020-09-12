@@ -1,8 +1,8 @@
-import bot from './bot';
-import Discord from 'discord.js';
+import bot, { BotManager } from './bot';
 import config from './config';
-import Commands from './commands/@commands';
-import { Emoji } from './emojis';
+import { admin_commands, role_commands } from './commands/@commands';
+import { Command } from './commands/@command-base';
+import { LuluEmoji } from './emojis';
 
 class Program {
 
@@ -23,23 +23,52 @@ class Program {
 
         bot.on('message', msg => {
 
-            if (msg.content.indexOf('emoji') > -1) msg.reply(Emoji.lulu_awaken);
+            const konluluRegExp = /(konlulu|конлулу)/i;
 
-            if (msg.content.startsWith(config.command_prefix) && this.isOwnerOrCrator(msg)) {
-                for (let c of Commands) {
-                    if (c.match(msg.content)) {
-                        c.execute(msg);
-                        break;
+            // if (msg.content.indexOf('emoji') > -1) msg.reply(Emoji.lulu_awaken);
+
+            if (msg.content.startsWith(config.command_prefix)) {
+
+                let commands: Command[];
+
+                if (BotManager.isOwnerOrCrator(msg)) commands = admin_commands;
+                else if (BotManager.hasAccessRole(msg)) commands = role_commands;
+
+                if (commands) {
+                    for (let c of commands) {
+                        if (c.match(msg.content)) {
+                            c.execute(msg);
+                            break;
+                        }
                     }
                 }
             }
+
+            else if (msg.content.startsWith('y!') && BotManager.isOwnerOrCrator(msg)) {
+                if (msg.content.indexOf('warn') > -1 || msg.content.indexOf('ban') > -1 || msg.content.indexOf('kick') > -1) {
+                    const emoji = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
+                    if (emoji) msg.react(emoji);
+                    msg.channel.send({files: ['./assets/voice/Lulu_-_ykhihikhihikhihi.mp3']});
+                }
+            }
+
+            else if (msg.content.match(konluluRegExp)) {
+                const emoji = msg.guild.emojis.cache.get(LuluEmoji.konlulu_happy);
+                if (emoji) msg.react(emoji);
+                msg.channel.send({files: ['./assets/voice/KONLULU.mp3']});
+            }
+
+        })
+
+        bot.on('guildMemberRemove', async member => {
+            try {
+                const creator = await member.guild.members.fetch({user: config.creator_id, cache: false});
+                creator.send(`Покинул сервер: ${member.id} | ${member.nickname} | ${member}`);
+            }
+            catch {}
         })
 
         bot.login(token);
-    }
-
-    isOwnerOrCrator(msg: Discord.Message) {
-        return msg.author.id == msg.guild.ownerID || msg.author.id == config.creator_id;
     }
 
     generateGrabTime() {        

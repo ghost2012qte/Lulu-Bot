@@ -1,6 +1,11 @@
-import Discord from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 
 export interface iLuluGrabEvent {
-    captured: Discord.Message[]
-    channel: Discord.TextChannel
+    captured: Message[]
+    channel: TextChannel
+}
+
+export enum RoleType {
+    CommandAccessRole,
+    GivenOnceCapturedRole
 }

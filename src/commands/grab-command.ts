@@ -1,4 +1,4 @@
-import Discord from 'discord.js';
+import { Message, TextChannel } from 'discord.js';
 import { Command } from "./@command-base";
 import { LuluGrab } from "../lulu-grab";
 
@@ -8,10 +8,10 @@ export class GrabCommand extends Command {
         return str.indexOf('grab')  > -1;
     }
 
-    execute(msg: Discord.Message) {
+    execute(msg: Message) {
         const luluGrab = new LuluGrab();
         luluGrab
-            .do(msg.guild, msg.channel as Discord.TextChannel)
+            .do(msg.guild, msg.channel as TextChannel)
             .then(e => {
                 if (e.captured.length) {
                     let answer = 'Попались!\n';
