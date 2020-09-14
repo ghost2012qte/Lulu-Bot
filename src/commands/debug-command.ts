@@ -1,6 +1,5 @@
 import { Command } from "./@command-base";
-import { Message } from "discord.js";
-import bot, { BotManager } from "../bot";
+import { Message, Permissions } from "discord.js";
 
 export class DebugCommand extends Command {
 
@@ -8,7 +7,12 @@ export class DebugCommand extends Command {
         return str.indexOf('debug') > -1;
     }
     execute(msg: Message): void {
-        msg.channel.send(BotManager.hasAccessRole(msg));
+        const role = msg.mentions?.roles.first();
+        msg.guild.channels.cache
+            .filter(ch => ch.type == 'text' && (role ? ch.permissionsFor(role).has(Permissions.FLAGS.SEND_MESSAGES) : true))
+            .forEach(ch => {
+                msg.channel.send(`${ch}`);
+            })
     }
 
 }

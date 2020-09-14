@@ -1,5 +1,6 @@
 import { Command } from "./@command-base";
 import { Message } from "discord.js";
+import { BotManager } from "../bot";
 
 export class SayCommand extends Command {
     
@@ -12,5 +13,6 @@ export class SayCommand extends Command {
             msg.delete();
             msg.channel.send(match[1]);
         }
+        BotManager.changeNicknameWithChance(msg);
     }
 }

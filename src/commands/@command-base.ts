@@ -1,6 +1,8 @@
-import Discord from 'discord.js';
+import { Message } from 'discord.js';
+import { LuluEmoji } from '../emojis';
 
 export abstract class Command {
+
     abstract match(str: string): boolean;
-    abstract execute (msg: Discord.Message): void;
+    abstract execute (msg: Message): void;
 }

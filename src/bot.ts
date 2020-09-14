@@ -1,7 +1,8 @@
-import Discord, { RoleData } from 'discord.js';
+import Discord, { Message } from 'discord.js';
+import config from './config';
 import { LocalStorage } from "node-localstorage";
 import { RoleType } from './interfaces';
-import config from './config';
+import { LuluEmoji } from './emojis';
 
 const bot = new Discord.Client();
 export default bot;
@@ -61,6 +62,15 @@ export class BotManager {
 
     static hasAccessRole(msg: Discord.Message) {
         return Boolean(msg.member.roles.cache.get(this.roleManager.getCreatedRoleId(msg.guild, RoleType.CommandAccessRole)));
+    }
+
+    static changeNicknameWithChance(msg: Message) {
+        if (Math.random() <= 0.03) {
+            msg.member.setNickname('Konlulu').catch(e => {});
+            const emoj = msg.guild.emojis.cache.get(LuluEmoji.mikuded);
+            if (emoj) msg.channel.send(emoj.toString());
+            msg.channel.send(`Лулу обратила на тебя внимание, ${msg.member}`);
+        }
     }
 }
 

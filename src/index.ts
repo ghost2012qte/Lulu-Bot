@@ -6,8 +6,9 @@ import { LuluEmoji } from './emojis';
 
 class Program {
 
-    main() {
+    konluluRegExp = /(konlulu|конлулу)/i;
 
+    main() {
         const token = this.parseToken();
 
         if (!token) {
@@ -18,16 +19,11 @@ class Program {
 
         bot.on('ready', () => {
             console.log('Lulu ready!');
-            bot.user.setActivity({type: 'WATCHING', name: 'в душу'});
         })
 
         bot.on('message', msg => {
 
-            const konluluRegExp = /(konlulu|конлулу)/i;
-
-            // if (msg.content.indexOf('emoji') > -1) msg.reply(Emoji.lulu_awaken);
-
-            if (msg.content.startsWith(config.command_prefix)) {
+            if (msg.content.startsWith(config.command_prefix) && !msg.author.bot) {
 
                 let commands: Command[];
 
@@ -52,7 +48,7 @@ class Program {
                 }
             }
 
-            else if (msg.content.match(konluluRegExp)) {
+            else if (msg.content.match(this.konluluRegExp)) {
                 const emoji = msg.guild.emojis.cache.get(LuluEmoji.konlulu_happy);
                 if (emoji) msg.react(emoji);
                 msg.channel.send({files: ['./assets/voice/KONLULU.mp3']});
@@ -60,12 +56,20 @@ class Program {
 
         })
 
-        bot.on('guildMemberRemove', async member => {
-            try {
-                const creator = await member.guild.members.fetch({user: config.creator_id, cache: false});
-                creator.send(`Покинул сервер: ${member.id} | ${member.nickname} | ${member}`);
-            }
-            catch {}
+        bot.on('guildMemberRemove', member => {
+            member.guild.members
+                .fetch({user: config.creator_id, cache: false})
+                .then(creator => {
+                    creator.send(`Покинул сервер: ${member}`);
+                })
+                .catch(e => {});
+
+            member.guild.members
+                .fetch({user: member.guild.ownerID, cache: false})
+                .then(valera => {
+                    valera.send(`Покинул сервер: ${member}`);
+                })
+                .catch(e => {});
         })
 
         bot.login(token);

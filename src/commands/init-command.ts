@@ -2,6 +2,7 @@ import { Message } from 'discord.js';
 import { Command } from "./@command-base";
 import { BotManager } from "../bot";
 import { RoleType } from '../interfaces';
+import { Activity } from '../activity';
 
 export class InitCommand extends Command {
 
@@ -10,7 +11,10 @@ export class InitCommand extends Command {
     }
 
     execute(msg: Message) {
-        this.initRoles(msg);
+        if (msg.content.indexOf('roles') > -1)
+            this.initRoles(msg);
+        else if (msg.content.indexOf('activity') > -1)
+            this.initActivity(msg);
     }
 
     private async initRoles(msg: Message) {
@@ -35,8 +39,9 @@ export class InitCommand extends Command {
         }
     }
 
-    startWatching() {
-        
+    private initActivity(msg: Message) {
+        new Activity(msg.guild, 10000).start();
+        msg.reply('Активити: успешно ~ !!');
     }
 
 }
