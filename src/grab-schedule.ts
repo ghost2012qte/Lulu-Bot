@@ -1,6 +1,7 @@
-import { Guild, Role } from "discord.js";
+import { Guild, Role, Emoji } from "discord.js";
 import { LuluGrab } from "./lulu-grab";
 import { BotManager } from "./bot";
+import { LuluEmoji } from "./emojis";
 
 export class GrabSchedule {
 
@@ -18,11 +19,23 @@ export class GrabSchedule {
     private checkTime() {
         if (new Date() > this.nextTime) {
             this.nextTime = this.generateGrabTime();
-            const luluGrab = new LuluGrab(5000);
+            const luluGrab = new LuluGrab(4000);
             luluGrab
                 .do(BotManager.getAvailableChannels(this.guild, this.role).random())
                 .then(e => {
-                    // a
+                    if (e.captured.length == 1) {
+                        e.channel.send('Попа~лся');
+                    }
+                    else if (e.captured.length > 1) {
+                        e.channel.send('Попа~лись');
+                    }
+                    else {
+                        const lulu1 = this.guild.emojis.cache.get(LuluEmoji.lulu_big1);
+                        const lulu2 = this.guild.emojis.cache.get(LuluEmoji.lulu_big2);
+                        if (lulu1 && lulu2) {
+                            e.channel.send(`${lulu1}${lulu2}`);
+                        }
+                    }
                 })
                 .finally(luluGrab.destroy);
         }
@@ -40,7 +53,7 @@ export class GrabSchedule {
         return next;
     }
 
-    dispose() {
+    destroy() {
         if (this.timerId) clearInterval(this.timerId);
     }
 }

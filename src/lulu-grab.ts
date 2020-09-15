@@ -16,33 +16,32 @@ export class LuluGrab {
     do(channel: Discord.TextChannel) {
         this.channel = channel;
 
-        return new Promise<iLuluGrabEvent>((resolve, reject) => {
-            if (this.channel) {
-                this.captured = [];
-                this.channel.send({files: ['./assets/lulu_grab1.png']}).then(() => {
-                    this.isGrabbing = true;
-
-                    setTimeout(() => {
-                        this.channel.send({files: ['./assets/lulu_grab2.png']}).then(() => {
-                            this.isGrabbing = false;
-                            resolve({
-                                captured: this.captured,
-                                channel: this.channel
-                            })
+        const p = new Promise<iLuluGrabEvent>(resolve => {
+            this.captured = [];
+            this.channel.send({files: ['./assets/lulu_grab1.png']}).then(() => {
+                this.isGrabbing = true;
+                setTimeout(() => {
+                    this.channel.send({files: ['./assets/lulu_grab2.png']}).then(() => {
+                        this.isGrabbing = false;
+                        resolve({
+                            captured: this.captured,
+                            channel: this.channel
                         })
-                    }, this.grabbingDuration);
-                })
-            }
-            else reject("Available channel wasn't found");
+                    })
+                }, this.grabbingDuration);
+            })
         })
-        .then(c => {
+
+        p.then(c => {
             this.captured = null;
             this.channel = null;
             return c;
         })
+
+        return p;
     }
 
-    destroy() {
+    destroy = () => {
         bot.off('message', this.onMessage);
         this.isGrabbing = false;
         this.captured = null;

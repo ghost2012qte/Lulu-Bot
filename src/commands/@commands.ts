@@ -1,4 +1,3 @@
-import { GrabCommand } from "./grab-command";
 import { InitCommand } from "./init-command";
 import { Command } from "./@command-base";
 import { SayCommand } from "./say-command";
@@ -14,7 +13,6 @@ export const role_commands: Command[] = [
 
 export const admin_commands: Command[] = [
     ...[
-        new GrabCommand(),
         new InitCommand(),
         new ClearCommand()
     ],
