@@ -13,8 +13,8 @@ export class LuluGrab {
         bot.on('message', this.onMessage);
     }
 
-    do(server: Discord.Guild, channel?: Discord.TextChannel) {
-        this.channel = channel || this.findAvailableChannel(server);
+    do(channel: Discord.TextChannel) {
+        this.channel = channel;
 
         return new Promise<iLuluGrabEvent>((resolve, reject) => {
             if (this.channel) {
@@ -55,14 +55,5 @@ export class LuluGrab {
         if (this.isGrabbing && msg.channel.id == this.channel.id && msg.author.id != bot.user.id && !this.captured.find(m => m.author.id == msg.author.id)) {
             this.captured.push(msg);
         }
-    }
-
-    private findAvailableChannel(server: Discord.Guild) {
-        return server.channels.cache
-            .filter(ch => {
-                const allowed = ch.permissionsFor(bot.user as Discord.ClientUser)?.has(Discord.Permissions.FLAGS.SEND_MESSAGES);
-                return Boolean(allowed && ch.type == 'text');
-            })
-            .random() as Discord.TextChannel;
     }
 }

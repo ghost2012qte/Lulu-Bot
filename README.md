@@ -1,13 +1,29 @@
 # Lulu Bot
+
 ![LuluWorldImage](https://sun9-25.userapi.com/-2A4pD_GrGccJoDVVHp0PmEZ9eGyza7iRF3w4w/OzUaU38Gi8E.jpg)
 
-# Commands
-####Admin Only
-* !lulu init - инициализация бота на сервере
-* !lulu clear storage - очищает внутренне хранилище
-####Lulu Cultist Role Owner
+[Добавить бота на сервер](https://discord.com/oauth2/authorize?client_id=752917963484430436&permissions=8&scope=bot "Бот был создан с оглядкой на vtuber bois и может некорректо работать на других серверах")
+
+## Commands
+
+#### Admin Only
+* !lulu init roles - инициализация ролей на сервере
+* !lulu init activity - инициализирует смену статуса
+* !lulu init hand --roleName="\<role_name\>"
+* !lulu clear storage - очищает внутренне хранилище (нужно понимать нюансы внутренней реализации, лучше не трогать)
+
+#### Lulu Cultist Role Owner and Admin
 * !lulu say \<message\> - удаляет исходное сообщение и повторяет его от своего имени
 * !lulu kawaii - отправляет moemoekyun.mp3
-# Actions
 
-* На сообщение от владельца сервера, содержащее y!warn, y!kick, y!ban оставляет реакцию ![LuluAwaken](https://sun9-50.userapi.com/Q33Krnb2rsTSqNaVxh85_gAQ30yydud3fa7CUw/hCUD1sh8Rns.jpg) и скидывает аудио KONLULU.mp3
+## Actions
+* На сообщение от владельца сервера, содержащее y!warn, y!kick, y!ban оставляет реакцию :lulu_awaken: и скидывает аудио KONLULU.mp3
+* На выход участника с сервера отправляет сообщение владельцу сервера
+* На сообщение, содержащее "конлулу" или "konlulu" оставляет реакцию :konlulu_happy: и скидывает KONLULU.mp3 в чат. Регистр не учитывается.
+* Имеет 3% шанс поменять никнейм при использовании команд, доступных для Lulu Cultist Role
+
+## При добавлении на сервер следует выполнить следующие команды поочередно:
+* !lulu init roles
+* !lulu init activity
+
+## Version 1.00

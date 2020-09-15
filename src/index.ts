@@ -23,7 +23,9 @@ class Program {
 
         bot.on('message', msg => {
 
-            if (msg.content.startsWith(config.command_prefix) && !msg.author.bot) {
+            if (msg.author.bot) return;
+
+            if (msg.content.startsWith(config.command_prefix)) {
 
                 let commands: Command[];
 
@@ -73,18 +75,6 @@ class Program {
         })
 
         bot.login(token);
-    }
-
-    generateGrabTime() {        
-        const hours = Math.round(Math.random() * 23);
-        const mins = Math.round(Math.random() * 59);
-
-        const next = new Date();
-        next.setDate(next.getDate() + 1);
-        next.setHours(hours);
-        next.setMinutes(mins);
-
-        return next;
     }
 
     parseToken() {

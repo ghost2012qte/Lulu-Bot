@@ -1,4 +1,4 @@
-import Discord, { Message } from 'discord.js';
+import Discord, { Message, Guild, Collection, TextChannel, Role, Permissions } from 'discord.js';
 import config from './config';
 import { LocalStorage } from "node-localstorage";
 import { RoleType } from './interfaces';
@@ -71,6 +71,10 @@ export class BotManager {
             if (emoj) msg.channel.send(emoj.toString());
             msg.channel.send(`Лулу обратила на тебя внимание, ${msg.member}`);
         }
+    }
+
+    static getAvailableChannels(guild: Guild, role: Role) {
+        return guild.channels.cache.filter(ch => ch.type == 'text' && ch.permissionsFor(role).has(Permissions.FLAGS.SEND_MESSAGES)) as Collection<string, TextChannel>;
     }
 }
 

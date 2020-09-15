@@ -3,18 +3,26 @@ import { Command } from "./@command-base";
 import { BotManager } from "../bot";
 import { RoleType } from '../interfaces';
 import { Activity } from '../activity';
+import { GrabSchedule } from '../grab-schedule';
 
 export class InitCommand extends Command {
 
+    shedules: GrabSchedule[] = [];
+
     match(str: string) {
-        return str.indexOf('init') > -1
+        return str.indexOf('init') > -1;
     }
 
     execute(msg: Message) {
-        if (msg.content.indexOf('roles') > -1)
+        if (msg.content.indexOf('roles') > -1) {
             this.initRoles(msg);
-        else if (msg.content.indexOf('activity') > -1)
+        }
+        else if (msg.content.indexOf('activity') > -1) {
             this.initActivity(msg);
+        }
+        else if (msg.content.indexOf('hand')  > -1) {
+            this.initHand(msg);
+        }
     }
 
     private async initRoles(msg: Message) {
@@ -40,8 +48,27 @@ export class InitCommand extends Command {
     }
 
     private initActivity(msg: Message) {
-        new Activity(msg.guild, 10000).start();
+        new Activity(msg.guild, 600000).start();
         msg.reply('Активити: успешно ~ !!');
+    }
+
+    private initHand(msg: Message) {
+        const match = msg.content.match(/--roleName="(.+)"/);
+        if (match) {
+            const role = msg.guild.roles.cache.find(role => role.name.toUpperCase() == match[1].toUpperCase());
+            if (role) {
+                msg.reply(`Для роли ${role.name} доступны следующие каналы ..`);
+                BotManager.getAvailableChannels(msg.guild, role).forEach(ch => {msg.channel.send(ch.toString())});
+                if (this.shedules.find(sc => sc.guild.id == msg.guild.id)) {
+                    msg.channel.send('На этом сервере уже установлена рука');
+                }
+                else {
+                    this.shedules.push(new GrabSchedule(msg.guild, role));
+                }
+                return;
+            }
+        }
+        msg.reply('Роль с таким именем не найдена.');
     }
 
 }
