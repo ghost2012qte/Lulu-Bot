@@ -2,8 +2,8 @@
 
 ![LuluWorldImage](https://sun9-25.userapi.com/-2A4pD_GrGccJoDVVHp0PmEZ9eGyza7iRF3w4w/OzUaU38Gi8E.jpg)
 
-[Добавить бота на сервер](https://discord.com/oauth2/authorize?client_id=752917963484430436&permissions=8&scope=bot)
-Важно! Бот писался под витубер бойсов и может некорректно работать на других серверах. 
+[Добавить бота на сервер](https://discord.com/oauth2/authorize?client_id=752917963484430436&permissions=8&scope=bot)  
+Важно! Бот писался под витубер бойсов и может некорректно работать на других серверах.
 
 ## Commands
 
