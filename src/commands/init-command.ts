@@ -53,22 +53,21 @@ export class InitCommand extends Command {
     }
 
     private initHand(msg: Message) {
-        const match = msg.content.match(/--roleName="(.+)"/);
-        if (match) {
-            const role = msg.guild.roles.cache.find(role => role.name.toUpperCase() == match[1].toUpperCase());
-            if (role) {
-                msg.reply(`Для роли ${role.name} доступны следующие каналы ..`);
+        const role = msg.mentions.roles.first();
+        if (role) {
+            msg.reply(`Для роли ${role} доступны следующие каналы ..`);
+            if (this.shedules.find(sc => sc.guild.id == msg.guild.id)) {
+                msg.channel.send('На этом сервере уже установлена рука');
+            }
+            else {
                 BotManager.getAvailableChannels(msg.guild, role).forEach(ch => {msg.channel.send(ch.toString())});
-                if (this.shedules.find(sc => sc.guild.id == msg.guild.id)) {
-                    msg.channel.send('На этом сервере уже установлена рука');
-                }
-                else {
-                    this.shedules.push(new GrabSchedule(msg.guild, role));
-                }
-                return;
+                this.shedules.push(new GrabSchedule(msg.guild, role));
+                msg.channel.send('Рука запланирована: Успешно ~ !!');
             }
         }
-        msg.reply('Роль с таким именем не найдена.');
+        else {
+            msg.reply('Роль с таким именем не найдена.');
+        }
     }
 
 }

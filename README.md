@@ -10,7 +10,8 @@
 #### Admin Only
 * !lulu init roles - инициализация ролей на сервере
 * !lulu init activity - инициализирует смену статуса
-* !lulu init hand --roleName="\<role_name\>"
+* !lulu init hand @role - инициализирует планировщик руки по тем каналам, куда указанная роль может писать сообщения
+* !lulu promote @member - дает учтастнику роль Lulu Cultist
 * !lulu clear storage - очищает внутренне хранилище (нужно понимать нюансы внутренней реализации, лучше не трогать)
 
 #### Lulu Cultist Role Owner and Admin
@@ -26,5 +27,6 @@
 ## При добавлении на сервер следует выполнить следующие команды поочередно:
 * !lulu init roles
 * !lulu init activity
+* !lulu init hand @VIRTUAL BOI
 
 LULU BOT v1.00

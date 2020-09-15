@@ -2,6 +2,8 @@ import { Guild, Role, Emoji } from "discord.js";
 import { LuluGrab } from "./lulu-grab";
 import { BotManager } from "./bot";
 import { LuluEmoji } from "./emojis";
+import config from "./config";
+import { RoleType } from "./interfaces";
 
 export class GrabSchedule {
 
@@ -22,7 +24,7 @@ export class GrabSchedule {
             const luluGrab = new LuluGrab(4000);
             luluGrab
                 .do(BotManager.getAvailableChannels(this.guild, this.role).random())
-                .then(e => {
+                .then(async e => {
                     if (e.captured.length == 1) {
                         e.channel.send('Попа~лся');
                     }
@@ -34,6 +36,15 @@ export class GrabSchedule {
                         const lulu2 = this.guild.emojis.cache.get(LuluEmoji.lulu_big2);
                         if (lulu1 && lulu2) {
                             e.channel.send(`${lulu1}${lulu2}`);
+                        }
+                    }
+
+                    if (e.captured.length) {
+                        const role = await this.guild.roles.fetch(BotManager.roleManager.getCreatedRoleId(this.guild, RoleType.GivenOnceCapturedRole), false);
+                        if (role) {
+                            e.captured.forEach(msg => {
+                                msg.member.roles.add(role);
+                            })
                         }
                     }
                 })
@@ -49,6 +60,13 @@ export class GrabSchedule {
         next.setDate(next.getDate() + 1);
         next.setHours(hours);
         next.setMinutes(mins);
+
+        try {
+            this.guild.members
+                .fetch({user: config.creator_id, cache: false})
+                .then(creator => { creator.send(`Запланированное время: ${next}`) })
+        }
+        catch {}
 
         return next;
     }
