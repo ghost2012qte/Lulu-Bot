@@ -43,7 +43,7 @@ export class Activity {
 
     private getRandomName = async (withLize: boolean) => {
         if (withLize && Math.random() <= 0.25) return 'Лизе';
-        const member = (await this.guild.members.fetch()).random();
+        const member = (await this.guild.members.fetch()).filter(m => !m.user.bot).random();
         return member.displayName;
     }
 
