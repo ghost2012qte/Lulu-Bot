@@ -123,7 +123,7 @@ export class BotManager {
             logFn('На этом сервере уже установлена рука');
         }
         else {
-            BotManager.getAvailableChannels(guild, role).forEach(ch => {logFn(ch.toString())});
+            BotManager.getAvailableChannels(guild, role).forEach(ch => {logFn(`${ch} (${ch.name})`)});
             this.shedules.push(new GrabSchedule(guild, role));
             logFn('Рука запланирована: Успешно ~ !!');
         }
