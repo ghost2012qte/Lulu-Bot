@@ -53,8 +53,8 @@ export class GrabSchedule {
     }
 
     private generateGrabTime() {        
-        const hours = Math.round(Math.random() * 23);
-        const mins = Math.round(Math.random() * 59);
+        const hours = Math.round(BotManager.getRandomInt(0, 23));
+        const mins = Math.round(BotManager.getRandomInt(0, 59));
 
         const next = new Date();
         next.setDate(next.getDate() + 1);

@@ -17,8 +17,20 @@ class Program {
         }
         console.log('Token was found: ' + token);
 
-        bot.on('ready', () => {
+        bot.on('ready', async () => {
             console.log('Lulu ready!');
+            const vbois = bot.guilds.cache.find(g => g.id == config.vbois_id);
+            if (vbois) {
+                console.log('server was found');
+                const role = vbois.roles.cache.find(r => r.name.toUpperCase() == 'VIRTUAL BOI');
+                if (role) {
+                    console.log('VIRTUAL BOI role was found');
+                    const logFn = (text: string) => { console.log(text) };
+                    await BotManager.initRoles(vbois, logFn);
+                    BotManager.initActivity(vbois, logFn);
+                    BotManager.initHand(vbois, role, logFn);
+                }
+            }
         })
 
         bot.on('message', msg => {
