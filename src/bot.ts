@@ -74,7 +74,7 @@ export class BotManager {
     }
 
     static getAvailableChannels(guild: Guild, role: Role) {
-        return guild.channels.cache.filter(ch => ch.type == 'text' && ch.permissionsFor(role).has(Permissions.FLAGS.SEND_MESSAGES)) as Collection<string, TextChannel>;
+        return guild.channels.cache.filter(ch => ch.type == 'text' && ch.permissionsFor(role).has(Permissions.FLAGS.VIEW_CHANNEL)) as Collection<string, TextChannel>;
     }
 }
 

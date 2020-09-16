@@ -17,7 +17,7 @@ export class Activity {
         bot.user.setActivity(null);
     }
 
-    private async setActivity() {
+    private setActivity = async () => {
         const type = ["PLAYING", "LISTENING", "WATCHING"][Math.round(Math.random() * 2)] as "PLAYING"|"LISTENING"|"WATCHING";
         let options: string[];
 
@@ -34,17 +34,17 @@ export class Activity {
         let name = options[Math.round(Math.random() * (options.length - 1))];
 
         if (name.indexOf('@@') > -1) {
-            name = name.replace('@@', await this.getRandomName(type == 'PLAYING'));
+            const randMemberName = await this.getRandomName(type == 'PLAYING');
+            name = name.replace('@@', randMemberName || '');
         }
 
         bot.user.setActivity({type: type, name: name});
     }
 
-    private async getRandomName(withLize: boolean): Promise<string> {
+    private getRandomName = async (withLize: boolean) => {
         if (withLize && Math.random() <= 0.25) return 'Лизе';
-        const member = (await this.guild.members.fetch()).filter(m => !m.user.bot).random();
-        if (member) return member.nickname || member.user.username;
-        return '';
+        const member = (await this.guild.members.fetch()).random();
+        return member.displayName;
     }
 
 }
