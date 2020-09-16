@@ -1,4 +1,4 @@
-import Discord, { Message, Guild, Collection, TextChannel, Role, Permissions } from 'discord.js';
+import Discord, { Message, Guild, Collection, TextChannel, Role, Permissions, GuildChannel } from 'discord.js';
 import config from './config';
 import { LocalStorage } from "node-localstorage";
 import { RoleType } from './interfaces';
@@ -74,7 +74,9 @@ export class BotManager {
     }
 
     static getAvailableChannels(guild: Guild, role: Role) {
-        return guild.channels.cache.filter(ch => ch.type == 'text' && ch.permissionsFor(role).has(Permissions.FLAGS.VIEW_CHANNEL)) as Collection<string, TextChannel>;
+        const canView = (ch: GuildChannel) => ch.permissionsFor(role).has(Permissions.FLAGS.VIEW_CHANNEL);
+        const canSend = (ch: GuildChannel) => ch.permissionsFor(role).has(Permissions.FLAGS.SEND_MESSAGES);
+        return guild.channels.cache.filter(ch => ch.type == 'text' && canView(ch) && canSend(ch)) as Collection<string, TextChannel>;
     }
 }
 
