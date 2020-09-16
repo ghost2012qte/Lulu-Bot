@@ -4,6 +4,8 @@ import { SayCommand } from "./say-command";
 import { ClearCommand } from "./clear-command";
 import { DebugCommand } from "./debug-command";
 import { KawaiiCommand } from "./kawaii-command";
+import { VersionCommand } from "./version-command";
+import { PromoteCommand } from "./promote-command";
 
 export const role_commands: Command[] = [
     new SayCommand(),
@@ -14,7 +16,9 @@ export const role_commands: Command[] = [
 export const admin_commands: Command[] = [
     ...[
         new InitCommand(),
-        new ClearCommand()
+        new ClearCommand(),
+        new VersionCommand(),
+        new PromoteCommand()
     ],
     ...role_commands
 ]
