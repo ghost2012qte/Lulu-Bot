@@ -8,7 +8,6 @@ const bot = new Discord.Client();
 export default bot;
 export const botStorage = new LocalStorage('./storage');
 
-
 class RoleManager {
 
     async createRole(guild: Discord.Guild, type: RoleType) {
@@ -78,5 +77,10 @@ export class BotManager {
         const canSend = (ch: GuildChannel) => ch.permissionsFor(role).has(Permissions.FLAGS.SEND_MESSAGES);
         return guild.channels.cache.filter(ch => ch.type == 'text' && canView(ch) && canSend(ch)) as Collection<string, TextChannel>;
     }
-}
 
+    static getRandomInt(min: number, max: number) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+}
