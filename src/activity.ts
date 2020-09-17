@@ -18,7 +18,7 @@ export class Activity {
     }
 
     private async setActivity() {
-        const type = ["PLAYING", "LISTENING", "WATCHING"][BotManager.getRandomInt(0,3)] as "PLAYING"|"LISTENING"|"WATCHING";
+        const type = ["PLAYING", "LISTENING", "WATCHING"][BotManager.getRandomInt(0,2)] as "PLAYING"|"LISTENING"|"WATCHING";
         let options: string[];
 
         if (type == "PLAYING") {
