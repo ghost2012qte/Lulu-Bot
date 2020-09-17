@@ -35,7 +35,7 @@ class Program {
 
         bot.on('message', msg => {
 
-            if (msg.author.bot) return;
+            if (!msg || !msg.guild || !msg.member || msg.author.bot) return;
 
             if (msg.content.startsWith(config.command_prefix)) {
 
@@ -74,14 +74,14 @@ class Program {
             member.guild.members
                 .fetch({user: config.creator_id, cache: false})
                 .then(creator => {
-                    creator.send(`Покинул сервер: ${member}`);
+                    creator.send(`${member} покинул сервер ${member.guild.name || ''}`);
                 })
                 .catch(e => {});
 
             member.guild.members
                 .fetch({user: member.guild.ownerID, cache: false})
                 .then(valera => {
-                    valera.send(`Покинул сервер: ${member}`);
+                    valera.send(`${member} покинул сервер ${member.guild.name || ''}`);
                 })
                 .catch(e => {});
         })

@@ -60,7 +60,7 @@ export class BotManager {
     private static shedules: GrabSchedule[] = [];
 
     static isOwnerOrCrator(msg: Discord.Message) {
-        return msg.author?.id == msg.guild?.ownerID || msg.author?.id == config.creator_id;
+        return msg.author.id == msg.guild.ownerID || msg.author.id == config.creator_id;
     }
 
     static hasAccessRole(msg: Discord.Message) {

@@ -21,7 +21,7 @@ export class GrabSchedule {
     private checkTime() {
         if (new Date() > this.nextTime) {
             this.nextTime = this.generateGrabTime();
-            const luluGrab = new LuluGrab(4000);
+            const luluGrab = new LuluGrab(7000);
             luluGrab
                 .do(BotManager.getAvailableChannels(this.guild, this.role).random())
                 .then(async e => {
