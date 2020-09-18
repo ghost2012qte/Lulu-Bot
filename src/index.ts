@@ -19,7 +19,7 @@ class Program {
 
         bot.on('ready', async () => {
             console.log('Lulu ready!');
-            const vbois = bot.guilds.cache.find(g => g.id == config.vbois_id);
+            const vbois = bot.guilds.cache.find(g => g.id == config.vbois_guild_id);
             if (vbois) {
                 console.log('server was found');
                 const role = vbois.roles.cache.find(r => r.name.toUpperCase() == 'VIRTUAL BOI');

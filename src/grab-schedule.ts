@@ -24,30 +24,7 @@ export class GrabSchedule {
             const luluGrab = new LuluGrab(7000);
             luluGrab
                 .do(BotManager.getAvailableChannels(this.guild, this.role).random())
-                .then(async e => {
-                    if (e.captured.length == 1) {
-                        e.channel.send('Попа~лся');
-                    }
-                    else if (e.captured.length > 1) {
-                        e.channel.send('Попа~лись');
-                    }
-                    else {
-                        const lulu1 = this.guild.emojis.cache.get(LuluEmoji.lulu_big1);
-                        const lulu2 = this.guild.emojis.cache.get(LuluEmoji.lulu_big2);
-                        if (lulu1 && lulu2) {
-                            e.channel.send(`${lulu1}${lulu2}`);
-                        }
-                    }
-
-                    if (e.captured.length) {
-                        const role = await this.guild.roles.fetch(BotManager.roleManager.getCreatedRoleId(this.guild, RoleType.GivenOnceCapturedRole), false);
-                        if (role) {
-                            e.captured.forEach(msg => {
-                                msg.member.roles.add(role);
-                            })
-                        }
-                    }
-                })
+                .then(LuluGrab.getDefaulGrabFn(this.guild))
                 .finally(luluGrab.destroy);
         }
     }

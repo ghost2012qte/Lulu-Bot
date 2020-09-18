@@ -12,6 +12,7 @@
 * !lulu init activity - инициализирует смену статуса
 * !lulu init hand @role - инициализирует планировщик руки по тем каналам, куда указанная роль может писать сообщения
 * !lulu promote @member - дает учтастнику роль Lulu Cultist
+* !lulu hand throw-in \<miliseconds\> - бросит руку в обход расписаня в случайный канал
 * !lulu clear storage - очищает внутренне хранилище (нужно понимать нюансы внутренней реализации, лучше не трогать)
 
 #### Lulu Cultist Role Owner and Admin

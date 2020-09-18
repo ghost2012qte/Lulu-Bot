@@ -1,6 +1,7 @@
-import Discord from 'discord.js';
-import bot from './bot';
-import { iLuluGrabEvent } from './interfaces';
+import Discord, { Guild } from 'discord.js';
+import bot, { BotManager } from './bot';
+import { LuluEmoji } from './emojis';
+import { iLuluGrabEvent, RoleType } from './interfaces';
 
 export class LuluGrab {
 
@@ -8,7 +9,7 @@ export class LuluGrab {
     private captured: Discord.Message[];
     private isGrabbing = false;
 
-    constructor (private grabbingDuration = 3000) {
+    constructor (private grabbingDuration = 7000) {
         console.log('Lulu Grab Created');
         bot.on('message', this.onMessage);
     }
@@ -53,6 +54,33 @@ export class LuluGrab {
         console.log('message while lulu grab class exists');
         if (this.isGrabbing && msg.channel.id == this.channel.id && msg.author.id != bot.user.id && !this.captured.find(m => m.author.id == msg.author.id)) {
             this.captured.push(msg);
+        }
+    }
+
+    static getDefaulGrabFn(guild: Guild) {
+        return async (e: iLuluGrabEvent) => {
+            if (e.captured.length == 1) {
+                e.channel.send('Попа~лся');
+            }
+            else if (e.captured.length > 1) {
+                e.channel.send('Попа~лись');
+            }
+            else {
+                const lulu1 = guild.emojis.cache.get(LuluEmoji.lulu_big1);
+                const lulu2 = guild.emojis.cache.get(LuluEmoji.lulu_big2);
+                if (lulu1 && lulu2) {
+                    e.channel.send(`${lulu1}${lulu2}`);
+                }
+            }
+
+            if (e.captured.length) {
+                const role = await guild.roles.fetch(BotManager.roleManager.getCreatedRoleId(guild, RoleType.GivenOnceCapturedRole), false);
+                if (role) {
+                    e.captured.forEach(msg => {
+                        msg.member.roles.add(role);
+                    })
+                }
+            }
         }
     }
 }
