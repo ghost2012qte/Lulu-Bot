@@ -1,5 +1,5 @@
 import { Command } from "./@command-base";
-import { Message } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 export class DebugCommand extends Command {
 
@@ -8,7 +8,6 @@ export class DebugCommand extends Command {
     }
 
     execute(msg: Message): void {
-
     }
 
 }

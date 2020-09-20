@@ -3,6 +3,7 @@ import config from './config';
 import { admin_commands, role_commands } from './commands/@commands';
 import { Command } from './commands/@command-base';
 import { LuluEmoji } from './emojis';
+import { MessageEmbed } from 'discord.js';
 
 class Program {
 
@@ -71,19 +72,22 @@ class Program {
         })
 
         bot.on('guildMemberRemove', member => {
-            member.guild.members
-                .fetch({user: config.creator_id, cache: false})
-                .then(creator => {
-                    creator.send(`${member} покинул сервер ${member.guild.name || ''}`);
-                })
-                .catch(e => {});
+            const embed = new MessageEmbed()
+                .setColor('#0099ff')
+                .addField('Server Name', member.displayName)
+                .addField('User Name', member.user.username)
+                .setImage(member.user.avatarURL({size: 128}));
 
-            member.guild.members
-                .fetch({user: member.guild.ownerID, cache: false})
-                .then(valera => {
-                    valera.send(`${member} покинул сервер ${member.guild.name || ''}`);
-                })
-                .catch(e => {});
+            const msg = `${member} has left ${member.guild.name}`;
+            
+            [config.creator_id, member.guild.ownerID].forEach(id => {
+                member.guild.members
+                    .fetch({user: id})
+                    .then(m => {
+                        if (m) m.send(msg, {embed: embed});
+                    })
+                    .catch(e => {});
+            })
         })
 
         bot.login(token);

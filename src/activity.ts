@@ -39,6 +39,7 @@ export class Activity {
         }
 
         bot.user.setActivity({type: type, name: name});
+        console.log(`Activity Changed: ${type} ${name}`);
     }
 
     private async getRandomName (withLize: boolean) {

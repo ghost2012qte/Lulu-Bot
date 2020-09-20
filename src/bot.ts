@@ -70,7 +70,7 @@ export class BotManager {
     static changeNicknameWithChance(msg: Message) {
         if (Math.random() <= 0.03) {
             msg.member.setNickname('Konlulu').catch(e => {});
-            const emoj = msg.guild.emojis.cache.get(LuluEmoji.mikuded);
+            const emoj = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
             if (emoj) msg.channel.send(emoj.toString());
             msg.channel.send(`Лулу обратила на тебя внимание, ${msg.member}`);
         }

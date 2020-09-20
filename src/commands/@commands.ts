@@ -7,11 +7,12 @@ import { KawaiiCommand } from "./kawaii-command";
 import { VersionCommand } from "./version-command";
 import { PromoteCommand } from "./promote-command";
 import { HandCommand } from "./hand-command";
+import { StealAvatarCommand } from "./steal-avatar-command";
 
 export const role_commands: Command[] = [
     new SayCommand(),
     new KawaiiCommand(),
-    new DebugCommand()
+    new StealAvatarCommand()
 ]
 
 export const admin_commands: Command[] = [
@@ -20,7 +21,8 @@ export const admin_commands: Command[] = [
         new ClearCommand(),
         new VersionCommand(),
         new PromoteCommand(),
-        new HandCommand()
+        new HandCommand(),
+        new DebugCommand()
     ],
     ...role_commands
 ]
