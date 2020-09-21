@@ -6,12 +6,18 @@ import { Command } from "./@command-base";
 
 export class HandCommand extends Command {
 
+    handTimerId: NodeJS.Timeout = null;
+
     match(str: string): boolean {
         return str.indexOf('hand') > -1;
     }
+
     execute(msg: Message): void {
         if (msg.content.indexOf('throw-in') > -1) {
             this.throwHand(msg);
+        }
+        else if (msg.content.indexOf('abort') > -1) {
+            this.abortHand();
         }
         
     }
@@ -25,19 +31,29 @@ export class HandCommand extends Command {
 
             if (mSecs && vbois && role) {
                 const ch = BotManager.getAvailableChannels(vbois, role).random();
-                setTimeout(() => {
+
+                this.abortHand();
+
+                this.handTimerId = setTimeout(() => {
                     const luluGrab = new LuluGrab();
                     luluGrab
                         .do(ch)
                         .then(LuluGrab.getDefaulGrabFn(vbois))
                         .finally(luluGrab.destroy);
-                    
+                        this.handTimerId = null;
                 }, mSecs);
                 
                 console.log(`Принудительный вброс руки в канал ${ch.name} через ${mSecs} милисекунд`);
             }
         }
 
+    }
+
+    private abortHand() {
+        if (this.handTimerId) {
+            clearTimeout(this.handTimerId);
+            console.log('Hand has been aborted');
+        }
     }
     
 }
