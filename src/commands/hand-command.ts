@@ -26,7 +26,7 @@ export class HandCommand extends Command {
             if (mSecs && vbois && role) {
                 const ch = BotManager.getAvailableChannels(vbois, role).random();
                 setTimeout(() => {
-                    const luluGrab = new LuluGrab(10000);
+                    const luluGrab = new LuluGrab();
                     luluGrab
                         .do(ch)
                         .then(LuluGrab.getDefaulGrabFn(vbois))
