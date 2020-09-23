@@ -15,7 +15,7 @@ export class StealAvatarCommand extends Command {
             if (metioned.id == bot.user.id) {
                 const awakenEmoji = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
                 if (awakenEmoji) msg.react(awakenEmoji);
-                msg.channel.send('https://youtu.be/iWreXUtD5_U');
+                msg.channel.send({files: ['./assets/lulu_stealavatar.mp4']});
                 return;
             }
 
