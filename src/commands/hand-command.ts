@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import bot, { BotManager } from "../bot";
+import bot, { botManager } from "../bot";
 import config from "../config";
 import { LuluGrab } from "../lulu-grab";
 import { Command } from "./@command-base";
@@ -13,7 +13,6 @@ export class HandCommand extends Command {
         if (msg.content.indexOf('throw-in') > -1) {
             this.throwHand(msg);
         }
-        
     }
 
     private async throwHand(msg: Message) {
@@ -24,7 +23,7 @@ export class HandCommand extends Command {
             const role = await vbois?.roles.fetch(config.vbois_role_id);
 
             if (mSecs && vbois && role) {
-                const ch = BotManager.getAvailableChannels(vbois, role).random();
+                const ch = botManager.getAvailableChannels(vbois, role).random();
                 setTimeout(() => {
                     const luluGrab = new LuluGrab(10000);
                     luluGrab

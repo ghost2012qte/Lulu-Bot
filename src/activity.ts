@@ -1,4 +1,4 @@
-import bot, { BotManager } from "./bot";
+import bot, { botManager } from "./bot";
 import { Guild } from "discord.js";
 
 export class Activity {
@@ -18,7 +18,7 @@ export class Activity {
     }
 
     private async setActivity() {
-        const type = ["PLAYING", "LISTENING", "WATCHING"][BotManager.getRandomInt(0,2)] as "PLAYING"|"LISTENING"|"WATCHING";
+        const type = ["PLAYING", "LISTENING", "WATCHING"][botManager.getRandomInt(0,2)] as "PLAYING"|"LISTENING"|"WATCHING";
         let options: string[];
 
         if (type == "PLAYING") {
@@ -31,7 +31,7 @@ export class Activity {
             options = ['Хроники Акаши', 'за порядком', 'в окно @@', 'в логи сервера', 'на Абраксаса', 'на поведение @@'];
         }
 
-        let name = options[BotManager.getRandomInt(0, options.length - 1)];
+        let name = options[botManager.getRandomInt(0, options.length - 1)];
 
         if (name.indexOf('@@') > -1) {
             const randMemberName = await this.getRandomName(type == 'PLAYING');

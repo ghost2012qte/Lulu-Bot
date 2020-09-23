@@ -1,5 +1,5 @@
 import Discord, { Guild } from 'discord.js';
-import bot, { BotManager } from './bot';
+import bot, { roleManager } from './bot';
 import { LuluEmoji } from './emojis';
 import { iLuluGrabEvent, RoleType } from './interfaces';
 
@@ -74,7 +74,7 @@ export class LuluGrab {
             }
 
             if (e.captured.length) {
-                const role = await guild.roles.fetch(BotManager.roleManager.getCreatedRoleId(guild, RoleType.GivenOnceCapturedRole), false);
+                const role = await guild.roles.fetch(roleManager.getCreatedRoleId(guild, RoleType.GivenOnceCapturedRole), false);
                 if (role) {
                     e.captured.forEach(msg => {
                         msg.member.roles.add(role);

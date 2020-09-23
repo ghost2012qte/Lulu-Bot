@@ -1,5 +1,4 @@
 import { Message } from 'discord.js';
-import { LuluEmoji } from '../emojis';
 
 export abstract class Command {
 

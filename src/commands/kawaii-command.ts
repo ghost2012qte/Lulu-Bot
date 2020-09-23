@@ -1,6 +1,6 @@
 import { Command } from "./@command-base";
 import { Message } from "discord.js";
-import { BotManager } from "../bot";
+import { botManager } from "../bot";
 
 export class KawaiiCommand extends Command {
     
@@ -10,7 +10,7 @@ export class KawaiiCommand extends Command {
 
     execute(msg: Message): void {
         msg.channel.send({files: ['./assets/voice/moemoekyun.mp3']});
-        BotManager.changeNicknameWithChance(msg);
+        botManager.changeNicknameWithChance(msg);
     }
 
 }

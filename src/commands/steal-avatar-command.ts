@@ -1,5 +1,5 @@
 import { ImageSize, Message } from "discord.js";
-import bot from "../bot";
+import bot, { botManager } from "../bot";
 import { LuluEmoji } from "../emojis";
 import { Command } from "./@command-base";
 
@@ -15,7 +15,7 @@ export class StealAvatarCommand extends Command {
             if (metioned.id == bot.user.id) {
                 const awakenEmoji = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
                 if (awakenEmoji) msg.react(awakenEmoji);
-                msg.channel.send('https://www.youtube.com/watch?v=iWreXUtD5_U');
+                msg.channel.send('https://youtu.be/iWreXUtD5_U');
                 return;
             }
 
@@ -24,6 +24,7 @@ export class StealAvatarCommand extends Command {
                 dynamic: true,
                 size: this.parseSize(msg.content)
             }))
+            botManager.changeNicknameWithChance(msg);
         }
     }
 

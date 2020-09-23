@@ -1,4 +1,4 @@
-import bot, { BotManager } from './bot';
+import bot, { botManager, roleManager } from './bot';
 import config from './config';
 import { admin_commands, role_commands } from './commands/@commands';
 import { Command } from './commands/@command-base';
@@ -27,9 +27,9 @@ class Program {
                 if (role) {
                     console.log('VIRTUAL BOI role was found');
                     const logFn = (text: string) => { console.log(text) };
-                    await BotManager.initRoles(vbois, logFn);
-                    BotManager.initActivity(vbois, logFn);
-                    BotManager.initHand(vbois, role, logFn);
+                    await botManager.initRoles(vbois, logFn);
+                    botManager.initActivity(vbois, logFn);
+                    botManager.initHand(vbois, role, logFn);
                 }
             }
         })
@@ -42,8 +42,8 @@ class Program {
 
                 let commands: Command[];
 
-                if (BotManager.isOwnerOrCrator(msg)) commands = admin_commands;
-                else if (BotManager.hasAccessRole(msg)) commands = role_commands;
+                if (botManager.isOwnerOrCrator(msg)) commands = admin_commands;
+                else if (roleManager.hasAccessRole(msg)) commands = role_commands;
 
                 if (commands) {
                     for (let c of commands) {
@@ -55,8 +55,8 @@ class Program {
                 }
             }
 
-            else if (msg.content.startsWith('y!') && BotManager.isOwnerOrCrator(msg)) {
-                if (msg.content.indexOf('warn') > -1 || msg.content.indexOf('ban') > -1 || msg.content.indexOf('kick') > -1) {
+            else if (msg.content.startsWith('y!') && botManager.isOwnerOrCrator(msg)) {
+                if (msg.content.startsWith('y!warn') || msg.content.startsWith('y!ban') || msg.content.startsWith('y!kick')) {
                     const emoji = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
                     if (emoji) msg.react(emoji);
                     msg.channel.send({files: ['./assets/voice/Lulu_-_ykhihikhihikhihi.mp3']});

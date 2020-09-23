@@ -1,5 +1,5 @@
 import { Command } from "./@command-base";
-import { Message, MessageEmbed } from "discord.js";
+import { Message } from "discord.js";
 
 export class DebugCommand extends Command {
 
