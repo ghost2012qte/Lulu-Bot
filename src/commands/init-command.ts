@@ -17,15 +17,6 @@ export class InitCommand extends Command {
         else if (msg.content.indexOf('activity') > -1) {
             botManager.initActivity(msg.guild, text => {msg.reply(text)});
         }
-        else if (msg.content.indexOf('hand')  > -1) {
-            const role = msg.mentions.roles.first();
-            if (role) {
-                botManager.initHand(msg.guild, role, text => {msg.channel.send(text)});
-            }
-            else {
-                msg.reply('Роль с таким именем не найдена.');
-            }
-        }
     }
 
 }

@@ -9,3 +9,5 @@ export enum RoleType {
     CommandAccessRole,
     GivenOnceCapturedRole
 }
+
+export type activityType = "PLAYING"|"LISTENING"|"WATCHING";

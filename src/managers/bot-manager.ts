@@ -59,8 +59,13 @@ export class BotManager {
     }
 
     initActivity(guild: Guild, logFn: (text: string) => void) {
-        new Activity(guild, 600000).start();
-        logFn('Активити: успешно ~ !!');
+        if (Activity.isRunning) {
+            logFn('One Running Activity Exists. You Should Stop It First.');
+        }
+        else {
+            Activity.start(guild, 600000);
+            logFn('Активити: успешно ~ !!');
+        }
     }
 
     initHand(guild: Guild, role: Role, logFn: (text: string) => void) {

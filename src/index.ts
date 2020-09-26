@@ -3,7 +3,8 @@ import config from './config';
 import { admin_commands, role_commands } from './commands/@commands';
 import { Command } from './commands/@command-base';
 import { LuluEmoji } from './emojis';
-import { MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
+import { Activity } from './activity';
 
 class Program {
 
@@ -17,16 +18,19 @@ class Program {
             process.exit(5);
         }
         console.log('Token was found: ' + token);
+        Activity.init();
+
+        bot.on('error', err =>  console.log(err));
 
         bot.on('ready', async () => {
             console.log('Lulu ready!');
-            const vbois = bot.guilds.cache.find(g => g.id == config.vbois_guild_id);
+            const vbois = bot.guilds.cache.get(config.vbois_guild_id);
             if (vbois) {
                 console.log('server was found');
-                const role = vbois.roles.cache.find(r => r.name.toUpperCase() == 'VIRTUAL BOI');
+                const role = vbois.roles.cache.get(config.vbois_role_id);
                 if (role) {
                     console.log('VIRTUAL BOI role was found');
-                    const logFn = (text: string) => { console.log(text) };
+                    const logFn = (text: string) => {console.log(text)};
                     await botManager.initRoles(vbois, logFn);
                     botManager.initActivity(vbois, logFn);
                     botManager.initHand(vbois, role, logFn);
@@ -74,7 +78,7 @@ class Program {
         bot.on('guildMemberRemove', member => {
             const embed = new MessageEmbed()
                 .setColor('#0099ff')
-                .addField('Server Name', member.displayName)
+                .addField('Server Nickname', member.displayName)
                 .addField('User Name', member.user.username)
                 .setImage(member.user.avatarURL({size: 128}));
 

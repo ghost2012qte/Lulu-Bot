@@ -13,14 +13,29 @@ export class HandCommand extends Command {
     }
 
     execute(msg: Message): void {
-        if (msg.content.indexOf('throw-in') > -1) {
+        if (msg.content.indexOf('init') > -1) {
+            this.initHand(msg);
+        }
+        else if (msg.content.indexOf('throw-in') > -1) {
             this.throwHand(msg);
         }
         else if (msg.content.indexOf('abort') > -1) {
             this.abortHand();
         }
-        
     }
+
+    private initHand(msg: Message) {
+        const role = msg.mentions.roles.first();
+        if (role) {
+            botManager.initHand(msg.guild, role, text => {
+                msg.channel.send(text);
+                console.log(text);
+            })
+        }
+        else {
+            msg.channel.send('Роль с таким именем не найдена.');
+        }
+    } 
 
     private async throwHand(msg: Message) {
         const match = msg.content.match(/throw-in\s+(\d+)/);
