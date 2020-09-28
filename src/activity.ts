@@ -61,10 +61,9 @@ export class Activity {
         if (options.indexOf(value) < 0) {
             options.push(value);
             botStorage.setItem(this.buildKey(type), JSON.stringify(options));
-            console.log('Activity Added:', type, value);
+            console.log(`Activity "${value}" has been added in type ${type}`);
             return value;
         }
-        console.log('Activity To Add Already Exists');
         return null;
     }
 
@@ -72,10 +71,9 @@ export class Activity {
         const options = this.getActivityOptions(type);        
         if (options.indexOf(value) > -1) {
             botStorage.setItem(this.buildKey(type), JSON.stringify(options.filter(o => o != value)));
-            console.log('Activity Added:', type, value);
+            console.log(`Activity "${value}" has been deleted from type ${type}`);
             return value;
         }
-        console.log('Activity To Delete Was Not Found');
         return null;
     }
 

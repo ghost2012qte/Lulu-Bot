@@ -2,7 +2,6 @@ import { Message, MessageEmbed } from "discord.js";
 import { Activity } from "../activity";
 import { botManager } from "../bot";
 import { activityType } from "../interfaces";
-import { BotManager } from "../managers/bot-manager";
 import { Command } from "./@command-base"
 
 export class ActivityCommand extends Command {
@@ -48,15 +47,25 @@ export class ActivityCommand extends Command {
             const matchValue = msg.content.match(/"(.+)"/);
             if (matchValue) {
                 const added = Activity.addActivity(matchType[1].toUpperCase() as activityType, matchValue[1]);
-                if (added) msg.channel.send(`${added} was added to type ${matchType[1].toUpperCase()}`);
-                else msg.channel.send(`${added} Already Exists In Type ${matchType[1].toUpperCase()}`);
+                if (added)
+                    msg.channel.send(`Activity "${added}" has been added to type ${matchType[1].toUpperCase()}`);
+                else
+                    msg.channel.send(`Activity "${added}" already exists in type ${matchType[1].toUpperCase()}`);
             }
             else {
-                msg.channel.send('Value TO Add Was Not Found In Given Line');
+                msg.channel.send(
+                    'Value has been not found in given command. Note that value must be wrapped by quotes.\n' +
+                    'Valid command example: !lulu activity add LISTENING "kinoko\'s pain with @@"\n' + 
+                    'If @@ is present in value, it would be replaced by random member name.'
+                );
             }
         }
         else {
-            msg.channel.send('Type must be LISTENING or PLAYING or WATCHING');
+            msg.channel.send(
+                'Type has been not found in given command. Note that type can only be LISTENING, PLAYING or WATCHING.\n' +
+                'Valid command example: !lulu activity add LISTENING "kinoko\'s pain with @@"\n' + 
+                'If @@ is present in value, it would be replaced by random member name.'
+            );
         }
     }
 
@@ -66,17 +75,25 @@ export class ActivityCommand extends Command {
             const matchValue = msg.content.match(/"(.+)"/);
             if (matchValue) {
                 const deleted = Activity.deleteActivity(matchType[1].toUpperCase() as activityType, matchValue[1]);
-                if (deleted) msg.channel.send(`${deleted} was Deleted From Type ${matchType[1].toUpperCase()}`);
-                else msg.channel.send(`${deleted} Was Not Found In Type ${matchType[1].toUpperCase()}`);
+                if (deleted)
+                    msg.channel.send(`Activity "${deleted}" has been deleted from type ${matchType[1].toUpperCase()}`);
+                else
+                    msg.channel.send(`Activity "${deleted}" has been not found in type ${matchType[1].toUpperCase()}`);
             }
             else {
-                msg.channel.send('Value TO Delete Was Not Found In Given Line');
+                msg.channel.send(
+                    'Value has been not found in given command. Note that value must be wrapped by quotes.\n' +
+                    'Valid command example: !lulu activity add LISTENING "kinoko\'s pain with @@"\n' + 
+                    'If @@ is present in value, it would be replaced by random member name.'
+                );
             }
         }
         else {
-            msg.channel.send('Type must be LISTENING or PLAYING or WATCHING');
+            msg.channel.send(
+                'Type has been not found in given command. Note that type can only be LISTENING, PLAYING or WATCHING.\n' +
+                'Valid command example: !lulu activity add LISTENING "kinoko\'s pain with @@"\n' + 
+                'If @@ is present in value, it would be replaced by random member name.'
+            );
         }
     }
-
-
 }
