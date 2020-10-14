@@ -27,12 +27,11 @@ export class MuteCommand extends Command {
                     expiredTimeMs: expiredDate.getTime()
                 })
 
-                mentionedMember.roles.remove(mentionedMember.roles.cache);
-                mentionedMember.roles.add(await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole)));
+                const mutedRole = await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole));
+                mentionedMember.roles.set([mutedRole]);
 
                 setTimeout(async () => {
-                    mentionedMember.roles.add(memberRoles);
-                    mentionedMember.roles.remove(await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole)));
+                    mentionedMember.roles.set(memberRoles);
                     this.delete(mentionedMember.id);
                 }, mins * 60000)
 
