@@ -7,7 +7,14 @@ export interface iLuluGrabEvent {
 
 export enum RoleType {
     CommandAccessRole,
-    GivenOnceCapturedRole
+    GivenOnceCapturedRole,
+    MuteRole
 }
 
 export type activityType = "PLAYING"|"LISTENING"|"WATCHING";
+
+export interface iMutedMember {
+    id: string
+    expiredTimeMs: number
+    removedRolesIds: string[]
+}

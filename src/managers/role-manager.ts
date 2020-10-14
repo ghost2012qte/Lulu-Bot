@@ -42,6 +42,11 @@ export class RoleManager {
                 color = 'PURPLE';
                 reason = 'For those who fell into eternity~!';
                 break;
+            case RoleType.MuteRole:
+                name = 'Konlulu Prisoner';
+                color = '#FFFFFF';
+                reason = 'Muted';
+                break;
             default:
                 return null;
         }

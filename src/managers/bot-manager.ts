@@ -40,7 +40,7 @@ export class BotManager {
     async initRoles(guild: Guild, logFn: (text: string) => void) {
         logFn('Инициализизация ролей ..');
         try {
-            const roles = [RoleType.CommandAccessRole, RoleType.GivenOnceCapturedRole];
+            const roles = [RoleType.CommandAccessRole, RoleType.GivenOnceCapturedRole, RoleType.MuteRole];
             for (let i = 0; i < roles.length; ++i) {
                 const roleId = roleManager.getCreatedRoleId(guild, roles[i]);
                 if (roleId) {

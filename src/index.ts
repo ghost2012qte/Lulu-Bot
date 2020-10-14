@@ -3,7 +3,7 @@ import config from './config';
 import { admin_commands, role_commands } from './commands/@commands';
 import { Command } from './commands/@command-base';
 import { LuluEmoji } from './emojis';
-import { Message, MessageEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import { Activity } from './activity';
 
 class Program {
@@ -18,9 +18,7 @@ class Program {
             process.exit(5);
         }
         console.log('Token was found: ' + token);
-        Activity.init();
-
-        bot.on('error', err =>  console.log(err));
+        Activity.init();        
 
         bot.on('ready', async () => {
             console.log('Lulu ready!');
@@ -93,6 +91,8 @@ class Program {
                     .catch(e => {});
             })
         })
+
+        bot.on('error', err =>  console.log(err));
 
         bot.login(token);
     }
