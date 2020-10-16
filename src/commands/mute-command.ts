@@ -18,6 +18,7 @@ export class MuteCommand extends Command {
             try {
                 const mentionedMember = msg.mentions.members.first();
                 const memberRoles = mentionedMember.roles.cache.filter(r => r.id != config.vbooster_role_id).array();
+                const boosterRole = mentionedMember.roles.cache.get(config.vbooster_role_id);
                 const mins = parseInt(match[1]);
                 const expiredDate = new Date();
                 expiredDate.setMinutes(expiredDate.getMinutes() + mins);
@@ -29,7 +30,7 @@ export class MuteCommand extends Command {
                 })
 
                 const mutedRole = await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole));
-                mentionedMember.roles.set([mutedRole]);
+                await mentionedMember.roles.set(boosterRole ? [boosterRole, mutedRole] : [mutedRole]);
 
                 setTimeout(async () => {
                     mentionedMember.roles.set(memberRoles);
@@ -39,7 +40,7 @@ export class MuteCommand extends Command {
                 msg.channel.send(`${mentionedMember} has been muted for ${mins} min`);
             }
             catch (e) {
-                msg.channel.send(e);
+                console.log(e);
             }
         }
     }

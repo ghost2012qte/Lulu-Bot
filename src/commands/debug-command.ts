@@ -1,7 +1,5 @@
 import { Command } from "./@command-base";
 import { Message } from "discord.js";
-import { roleManager } from "../bot";
-import { RoleType } from "../interfaces";
 
 export class DebugCommand extends Command {
 
