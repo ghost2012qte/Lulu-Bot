@@ -17,24 +17,24 @@ export class MuteCommand extends Command {
         if (match && msg.mentions.members.size) {
             try {
                 const mentionedMember = msg.mentions.members.first();
-                const memberRoles = mentionedMember.roles.cache.filter(r => r.id != config.vbooster_role_id).array();
+                const memberRoles = mentionedMember.roles.cache.array();
                 const boosterRole = mentionedMember.roles.cache.get(config.vbooster_role_id);
                 const mins = parseInt(match[1]);
-                const expiredDate = new Date();
-                expiredDate.setMinutes(expiredDate.getMinutes() + mins);
+                // const expiredDate = new Date();
+                // expiredDate.setMinutes(expiredDate.getMinutes() + mins);
 
-                this.save({
-                    id: mentionedMember.id,
-                    removedRolesIds: mentionedMember.roles.cache.map(r => r.id),
-                    expiredTimeMs: expiredDate.getTime()
-                })
+                // this.save({
+                //     id: mentionedMember.id,
+                //     removedRolesIds: mentionedMember.roles.cache.map(r => r.id),
+                //     expiredTimeMs: expiredDate.getTime()
+                // })
 
                 const mutedRole = await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole));
                 await mentionedMember.roles.set(boosterRole ? [boosterRole, mutedRole] : [mutedRole]);
 
                 setTimeout(async () => {
                     mentionedMember.roles.set(memberRoles);
-                    this.delete(mentionedMember.id);
+                    //this.delete(mentionedMember.id);
                 }, mins * 60000)
 
                 msg.channel.send(`${mentionedMember} has been muted for ${mins} min`);
