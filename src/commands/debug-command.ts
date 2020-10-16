@@ -16,7 +16,7 @@ export class DebugCommand extends Command {
             member.roles.cache.forEach(r => {
                 message += `${r.name} - ${r.id}\n`;
             })
-            msg.channel.send(message);            
+            msg.channel.send(message.replace('@', ''));            
         }
     }
 
