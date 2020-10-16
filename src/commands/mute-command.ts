@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { botStorage, roleManager } from "../bot";
+import config from "../config";
 import { iMutedMember, RoleType } from "../interfaces";
 import { Command } from "./@command-base"
 
@@ -16,7 +17,7 @@ export class MuteCommand extends Command {
         if (match && msg.mentions.members.size) {
             try {
                 const mentionedMember = msg.mentions.members.first();
-                const memberRoles = mentionedMember.roles.cache.array();
+                const memberRoles = mentionedMember.roles.cache.filter(r => r.id != config.vbooster_role_id).array();
                 const mins = parseInt(match[1]);
                 const expiredDate = new Date();
                 expiredDate.setMinutes(expiredDate.getMinutes() + mins);
