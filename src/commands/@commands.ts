@@ -17,6 +17,10 @@ export const role_commands: Command[] = [
     new StealAvatarCommand()
 ]
 
+export const moder_commands: Command[] = [
+    new MuteCommand()
+]
+
 export const admin_commands: Command[] = [
     ...[
         new InitCommand(),
@@ -25,8 +29,8 @@ export const admin_commands: Command[] = [
         new PromoteCommand(),
         new HandCommand(),
         new DebugCommand(),
-        new ActivityCommand(),
-        new MuteCommand()
+        new ActivityCommand()
     ],
-    ...role_commands
+    ...role_commands,
+    ...moder_commands
 ]

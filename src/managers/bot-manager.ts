@@ -14,6 +14,10 @@ export class BotManager {
         return msg.author.id == msg.guild.ownerID || msg.author.id == config.creator_id;
     }
 
+    isModerOrParticipant(msg: Message) {
+        return msg.member.roles.cache.has('701496352412008467') || msg.member.roles.cache.has('738180902651428894');
+    }
+
     changeNicknameWithChance(msg: Message) {
         if (Math.random() <= 0.03) {
             msg.member.setNickname('Konlulu').catch(e => {});

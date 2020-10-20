@@ -1,6 +1,6 @@
 import bot, { botManager, roleManager } from './bot';
 import config from './config';
-import { admin_commands, role_commands } from './commands/@commands';
+import { admin_commands, moder_commands, role_commands } from './commands/@commands';
 import { Command } from './commands/@command-base';
 import { LuluEmoji } from './emojis';
 import { MessageEmbed } from 'discord.js';
@@ -42,17 +42,24 @@ class Program {
 
             if (msg.content.startsWith(config.command_prefix)) {
 
-                let commands: Command[];
+                let commands: Command[] = [];
 
-                if (botManager.isOwnerOrCrator(msg)) commands = admin_commands;
-                else if (roleManager.hasAccessRole(msg)) commands = role_commands;
+                if (botManager.isOwnerOrCrator(msg)) {
+                    commands = admin_commands;
+                }
+                else {
+                    if (roleManager.hasAccessRole(msg)) {
+                        commands = [...commands, ...role_commands];
+                    }
+                    if (botManager.isModerOrParticipant(msg)) {
+                        commands = [...commands, ...moder_commands];
+                    }
+                }
 
-                if (commands) {
-                    for (let c of commands) {
-                        if (c.match(msg.content)) {
-                            c.execute(msg);
-                            break;
-                        }
+                for (let c of commands) {
+                    if (c.match(msg.content)) {
+                        c.execute(msg);
+                        break;
                     }
                 }
             }
