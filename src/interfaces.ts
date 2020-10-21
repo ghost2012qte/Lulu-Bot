@@ -14,7 +14,6 @@ export enum RoleType {
 export type activityType = "PLAYING"|"LISTENING"|"WATCHING";
 
 export interface iMutedMember {
-    id: string
-    expiredTimeMs: number
-    removedRolesIds: string[]
+    member_id: string
+    removed_roles_ids: string[]
 }

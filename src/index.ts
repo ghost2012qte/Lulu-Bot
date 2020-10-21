@@ -51,7 +51,7 @@ class Program {
                     if (roleManager.hasAccessRole(msg)) {
                         commands = [...commands, ...role_commands];
                     }
-                    if (botManager.isModerOrParticipant(msg)) {
+                    if (botManager.isModerOrParticipant(msg.member)) {
                         commands = [...commands, ...moder_commands];
                     }
                 }

@@ -1,5 +1,5 @@
 import config from "../config";
-import { Collection, Guild, GuildChannel, Message, Role, TextChannel, Permissions } from "discord.js";
+import { Collection, Guild, GuildChannel, Message, Role, TextChannel, Permissions, GuildMember } from "discord.js";
 import { Activity } from "../activity";
 import { roleManager } from "../bot";
 import { LuluEmoji } from "../emojis";
@@ -14,8 +14,8 @@ export class BotManager {
         return msg.author.id == msg.guild.ownerID || msg.author.id == config.creator_id;
     }
 
-    isModerOrParticipant(msg: Message) {
-        return msg.member.roles.cache.has('701496352412008467') || msg.member.roles.cache.has('738180902651428894');
+    isModerOrParticipant(member: GuildMember) {
+        return member.roles.cache.has('701496352412008467') || member.roles.cache.has('738180902651428894');
     }
 
     changeNicknameWithChance(msg: Message) {
