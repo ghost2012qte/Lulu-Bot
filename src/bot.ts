@@ -3,14 +3,7 @@ import { LocalStorage } from "node-localstorage";
 import { RoleManager } from './managers/role-manager';
 import { BotManager } from './managers/bot-manager';
 
-const intents = new Intents([
-    Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
-    "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
-]);
-
-const bot = new Client({
-    ws: {intents}
-})
+const bot = new Client();
 
 export default bot;
 
