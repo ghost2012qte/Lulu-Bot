@@ -9,6 +9,7 @@ import { Activity } from './activity';
 class Program {
 
     konluluRegExp = /(konlulu|конлулу)/i;
+    patRegExp = /<:.*pat.*>/i;
 
     main() {
         const token = this.parseToken();
@@ -82,7 +83,7 @@ class Program {
                 msg.channel.send({files: ['./assets/voice/KONLULU.mp3']});
             }
 
-            else if (msg.mentions.members.size && msg.mentions.members.first().id == bot.user.id || msg.content.indexOf('pat') > -1) {
+            else if (msg.mentions.members.size > 0 && msg.mentions.members.first().id == bot.user.id && msg.content.match(this.patRegExp)) {
                 const emoji = msg.guild.emojis.cache.get(LuluEmoji.kanata_pat);
                 if (emoji) msg.reply(emoji.toString());
             }
