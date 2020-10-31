@@ -42,6 +42,14 @@ export class MutableMember {
         MutableMember.uncache(this.member.id);
     }
 
+    destroy() {
+        if (this.timer) clearTimeout(this.timer);
+        this.timer = null;
+        this.roles = null;
+        this.boosterRole = null;
+        MutableMember.uncache(this.member.id);
+    }
+
     static get storageList(): iMutedMember[] {
         const json = botStorage.getItem('muted_list');
         return json ? JSON.parse(json) : [];

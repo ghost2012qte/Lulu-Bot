@@ -1,5 +1,5 @@
-import { GuildMember, Message } from "discord.js";
-import { botManager, roleManager } from "../bot";
+import { Message } from "discord.js";
+import bot, { botManager, roleManager } from "../bot";
 import { RoleType } from "../interfaces";
 import { MutableMember } from "../Mutable-member";
 import { Command } from "./@command-base"
@@ -7,6 +7,17 @@ import { Command } from "./@command-base"
 export class MuteCommand extends Command {
 
     listOfMuted: MutableMember[] = [];
+
+    constructor() {
+        super();
+        bot.on('guildMemberRemove', member => {
+            const muted = this.listOfMuted.find(mutable => mutable.member.id == member.id);
+            if (muted) {
+                muted.destroy();
+                this.listOfMuted = this.listOfMuted.filter(m => m != muted);
+            }
+        })
+    }
 
     match(str: string): boolean {
         return str.indexOf('mute') > -1;

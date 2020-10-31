@@ -1,4 +1,4 @@
-import { Client, Intents } from 'discord.js';
+import { Client } from 'discord.js';
 import { LocalStorage } from "node-localstorage";
 import { RoleManager } from './managers/role-manager';
 import { BotManager } from './managers/bot-manager';

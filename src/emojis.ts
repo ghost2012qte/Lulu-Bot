@@ -9,5 +9,6 @@ export enum LuluEmoji {
     konlulu_happy = '717840841669869629',
     mikuded = '753991773659070504',
     lulu_big1 = '720705307571126282',
-    lulu_big2 = '720705307537571871'
+    lulu_big2 = '720705307537571871',
+    kanata_pat = '716799540627505243'
 }

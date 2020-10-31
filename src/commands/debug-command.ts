@@ -8,14 +8,12 @@ export class DebugCommand extends Command {
     }
 
     async execute(msg: Message) {
-        const member = msg.mentions.members?.first();
-        if (member) {
-            let message = `${member.displayName} has following roles:\n`;
-            member.roles.cache.forEach(r => {
-                message += `${r.name} - ${r.id}\n`;
-            })
-            msg.channel.send(message.replace('@', ''));            
-        }
+        const members = await msg.guild.members.fetch();
+        let reply = '';
+        members.forEach(m => {
+            reply += m.toString()
+        })
+        msg.channel.send(reply);
     }
 
 }

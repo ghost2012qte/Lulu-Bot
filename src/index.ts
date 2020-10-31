@@ -64,18 +64,27 @@ class Program {
                 }
             }
 
-            else if (msg.content.startsWith('y!') && botManager.isOwnerOrCrator(msg)) {
-                if (msg.content.startsWith('y!warn') || msg.content.startsWith('y!ban') || msg.content.startsWith('y!kick')) {
-                    const emoji = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
-                    if (emoji) msg.react(emoji);
-                    msg.channel.send({files: ['./assets/voice/Lulu_-_ykhihikhihikhihi.mp3']});
-                }
+            else if (
+                msg.content.startsWith('y!')
+                && msg.mentions.members.size > 0
+                && botManager.isModerOrParticipant(msg.member)
+                && (msg.content.startsWith('y!warn') || msg.content.startsWith('y!ban') || msg.content.startsWith('y!kick'))
+                && msg.content.indexOf('clear') < 0 )
+            {
+                const emoji = msg.guild.emojis.cache.get(LuluEmoji.lulu_awaken);
+                if (emoji) msg.react(emoji);
+                msg.channel.send({files: ['./assets/voice/Lulu_-_ykhihikhihikhihi.mp3']});
             }
 
             else if (msg.content.match(this.konluluRegExp)) {
                 const emoji = msg.guild.emojis.cache.get(LuluEmoji.konlulu_happy);
                 if (emoji) msg.react(emoji);
                 msg.channel.send({files: ['./assets/voice/KONLULU.mp3']});
+            }
+
+            else if (msg.mentions.members.size && msg.mentions.members.first().id == bot.user.id || msg.content.indexOf('pat') > -1) {
+                const emoji = msg.guild.emojis.cache.get(LuluEmoji.kanata_pat);
+                if (emoji) msg.reply(emoji.toString());
             }
 
         })
