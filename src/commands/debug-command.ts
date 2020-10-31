@@ -10,10 +10,19 @@ export class DebugCommand extends Command {
     }
 
     async execute(msg: Message) {
-        const vbois = bot.guilds.cache.get(config.vbois_guild_id);
-        if (vbois) {
-            const member = (await msg.guild.members.fetch()).filter(m => m.presence.status !== 'offline' && !m.user.bot).random();
-            msg.channel.send(member.displayName);
+        try {
+            const vbois = bot.guilds.cache.get(config.vbois_guild_id);
+            if (vbois) {
+                const members = (await msg.guild.members.fetch()).filter(m => m.presence.status !== 'offline' && !m.user.bot);
+                let response = '';
+                members.forEach(m => {
+                    response += m.displayName + '\n';
+                })
+                msg.channel.send(response);
+            }
+        }
+        catch (e) {
+            msg.channel.send(e);
         }
     }
 
