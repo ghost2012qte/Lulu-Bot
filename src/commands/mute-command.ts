@@ -1,20 +1,25 @@
-import { Message } from "discord.js";
+import config from "../config";
+import { Message, TextChannel } from "discord.js";
 import bot, { botManager, roleManager } from "../bot";
 import { RoleType } from "../interfaces";
-import { MutableMember } from "../Mutable-member";
+import { MuteBox } from "../MuteBox";
 import { Command } from "./@command-base"
 
 export class MuteCommand extends Command {
 
-    listOfMuted: MutableMember[] = [];
+    prisoners = new Array<MuteBox>();
 
     constructor() {
         super();
-        bot.on('guildMemberRemove', member => {
-            const muted = this.listOfMuted.find(mutable => mutable.member.id == member.id);
-            if (muted) {
-                muted.destroy();
-                this.listOfMuted = this.listOfMuted.filter(m => m != muted);
+        
+        MuteBox.onDestroy = prisoner => {
+            this.prisoners = this.prisoners.filter(p => p !== prisoner);
+        }
+
+        bot.on('guildMemberAdd', member => {
+            const prisoner = this.prisoners.find(p => p.member.id === member.id);
+            if (prisoner) {
+                prisoner.setMutedState();
             }
         })
     }
@@ -29,30 +34,31 @@ export class MuteCommand extends Command {
                 this.unmute(msg);
             }
             else {
-                const match = msg.content.match(/mute.+\s(\d+)/);
-                if (match) this.mute(msg, parseInt(match[1]));
+                const match = msg.content.match(/mute.+\s(\d+)\s*([a-zа-яё0-9_\s]*)/i);
+                if (match) this.mute(msg, parseInt(match[1]), match[2]);
                 else msg.channel.send('No time was provided.');
             }
         }
         else msg.channel.send('No user was provided.');
     }
 
-    async mute(msg: Message, mins: number) {
+    async mute(msg: Message, mins: number, reason: string) {
         const mentioned = msg.mentions.members.first();
         if (botManager.isModerOrParticipant(mentioned)) {
-            msg.channel.send('You can not mute members with equal or higher role.');
+            msg.channel.send("You can't mute this user...");
             return;
         }
-        const alreadyMuted = Boolean(this.listOfMuted.find(muted => muted.member.id == mentioned.id));
-        if (alreadyMuted) msg.channel.send(`${mentioned} is already muted. Use unmute command first.`);
+        if (this.isMuted(mentioned.id)) {
+            msg.channel.send(`${mentioned} is already muted. Use unmute command first.`);
+        }
         else {
             const muteRole = await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole));
             try {
-                const mutable = new MutableMember(mentioned, muteRole);
-                mutable.onTick = this.onTick;
-                await mutable.mute(mins);
-                this.listOfMuted.push(mutable);
+                const mutebox = new MuteBox(mentioned, muteRole, mins * 60000);
+                await mutebox.activate();
+                this.prisoners.push(mutebox);
                 msg.channel.send(`${mentioned} was muted for ${mins} min.`);
+                this.tryLog(msg, `${mentioned} was muted by ${msg.member} for ${mins} mins. [${reason || 'No reason given'}].`);
             }
             catch (e) {
                 msg.channel.send(e);
@@ -62,18 +68,23 @@ export class MuteCommand extends Command {
 
     async unmute(msg: Message) {
         const mentioned = msg.mentions.members.first();
-        const muted = this.listOfMuted.find(m => m.member.id == mentioned.id);
-
+        const muted = this.prisoners.find(m => m.member.id == mentioned.id);
         if (muted) {
-            await muted.unmute();
-            this.listOfMuted = this.listOfMuted.filter(m => m.member.id != muted.member.id);
-            msg.channel.send(`${mentioned} was unmuted.`)
+            await muted.destroy();
+            msg.channel.send(`${mentioned} was unmuted.`);
+            this.tryLog(msg, `${mentioned} was unmuted by ${msg.member}.`);
         }
         else msg.channel.send(`${mentioned} is not muted`);
     }
 
-    onTick = (member: MutableMember) => {
-        member.unmute();
-        this.listOfMuted = this.listOfMuted.filter(m => m != member);
+    tryLog(msg: Message, text: string) {
+        const moderCh = msg.guild.channels.cache.get(config.vbois_moderator_channel_id) as TextChannel;
+        if (moderCh) {
+            moderCh.send(text);
+        }
+    }
+
+    isMuted(id: string) {
+        return this.prisoners.some(p => p.member.id === id);
     }
 }
