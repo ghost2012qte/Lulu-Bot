@@ -8,13 +8,11 @@ export class MuteBox {
     static onDestroy: (box: MuteBox) => void;
 
     roles: Role[];
-    boosterRole: Role;
 
     timer: NodeJS.Timer;
 
     constructor(public member: GuildMember, public muteRole: Role, public time: number) {
-        this.roles = this.member.roles.cache.array();
-        this.boosterRole = this.member.roles.cache.get(config.vbooster_role_id);
+        this.roles = this.member.roles.cache.filter(r => r.id !== config.vbooster_role_id).array();
     }
 
     async activate() {
@@ -24,21 +22,24 @@ export class MuteBox {
         this.timer = setTimeout(() => {
             const moderCh = this.member.guild.channels.cache.get(config.vbois_moderator_channel_id) as TextChannel;
             if (moderCh) {
-                moderCh.send(`${this.member} was unmuted by time expiration.`)
+                moderCh.send(`${this.member} was unmuted by time expiration.`);
             }
             this.timer = null;
             this.destroy();
-        }, this.time);
+        },
+        this.time);
     }
 
     async setMutedState() {
-        await this.member.roles.set(this.boosterRole ? [this.boosterRole, this.muteRole] : [this.muteRole]);
+        const boosterRole = this.member.roles.cache.get(config.vbooster_role_id);
+        await this.member.roles.set(boosterRole ? [boosterRole, this.muteRole] : [this.muteRole]);
     }
 
     async destroy() {
         try {
             if (this.timer) clearTimeout(this.timer);
-            await this.member.roles.set(this.roles);
+            const boosterRole = this.member.roles.cache.get(config.vbooster_role_id);
+            await this.member.roles.set(boosterRole ? [...this.roles, boosterRole] : this.roles);
         }
         catch (e) {
             console.log(e);
