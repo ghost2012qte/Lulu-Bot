@@ -41,7 +41,7 @@ export class MuteBox {
             await this.member.roles.set(this.roles);
         }
         catch (e) {
-            throw e;
+            console.log(e);
         }
         finally {
             MuteBox.uncache(this.member.id);
