@@ -11,7 +11,17 @@ export class RoleManager {
     }
 
     getCreatedRoleId(guild: Guild, type: RoleType) {
-        return botStorage.getItem(this.buildStorageKey(guild, type));
+        // return botStorage.getItem(this.buildStorageKey(guild, type));
+        switch (type) {
+            case RoleType.CommandAccessRole:
+                return '755734742611001415';
+            case RoleType.GivenOnceCapturedRole:
+                return '755734743089152042';
+            case RoleType.MuteRole:
+                return '766021472316555295';
+            default:
+                return null;
+        }
     }
 
     hasAccessRole(msg: Message) {

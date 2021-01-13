@@ -58,7 +58,7 @@ export class MuteCommand extends Command {
                 await mutebox.activate();
                 this.prisoners.push(mutebox);
                 msg.channel.send(`${mentioned} was muted for ${mins} min.`);
-                this.tryLog(msg, `${mentioned} was muted by ${msg.member} for ${mins} mins. [${reason || 'No reason given'}].`);
+                this.tryLog(msg, `${mentioned} was muted by ${msg.member} for ${mins} mins [${reason || 'No reason given'}]`);
             }
             catch (e) {
                 msg.channel.send(e);
@@ -72,7 +72,7 @@ export class MuteCommand extends Command {
         if (muted) {
             await muted.destroy();
             msg.channel.send(`${mentioned} was unmuted.`);
-            this.tryLog(msg, `${mentioned} was unmuted by ${msg.member}.`);
+            this.tryLog(msg, `${mentioned} was unmuted by ${msg.member}`);
         }
         else msg.channel.send(`${mentioned} is not muted`);
     }
