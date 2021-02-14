@@ -23,7 +23,7 @@ class Program {
 
         bot.on('ready', async () => {
             console.log('Lulu ready!');
-            const vbois = bot.guilds.cache.get(config.vbois_guild_id);
+            const vbois = await bot.guilds.fetch(config.vbois_guild_id);
             if (vbois) {
                 console.log('server was found');
                 const role = vbois.roles.cache.get(config.vbois_role_id);

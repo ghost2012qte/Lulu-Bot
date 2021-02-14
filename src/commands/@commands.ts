@@ -10,6 +10,7 @@ import { HandCommand } from "./hand-command";
 import { StealAvatarCommand } from "./steal-avatar-command";
 import { ActivityCommand } from "./activity-command";
 import { MuteCommand } from "./mute-command";
+import { AutoroleCommand } from "./autorole-command";
 
 export const role_commands: Command[] = [
     new SayCommand(),
@@ -29,7 +30,8 @@ export const admin_commands: Command[] = [
         new PromoteCommand(),
         new HandCommand(),
         new DebugCommand(),
-        new ActivityCommand()
+        new ActivityCommand(),
+        new AutoroleCommand()
     ],
     ...role_commands,
     ...moder_commands
