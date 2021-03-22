@@ -1,7 +1,6 @@
 import { Message } from "discord.js";
-import { roleManager } from "../bot";
+import config from "../config";
 import { LuluEmoji } from "../emojis";
-import { RoleType } from "../interfaces";
 import { Command } from "./@command-base";
 
 export class PromoteCommand extends Command {
@@ -10,9 +9,9 @@ export class PromoteCommand extends Command {
         return str.indexOf('promote') > -1;
     }
 
-    async execute(msg: Message): Promise<void> {
+    async execute(msg: Message) {
         const member = msg.mentions.members.first();
-        const role = await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.CommandAccessRole), false);
+        const role = await msg.guild.roles.fetch(config.vbois.lulu_cultist_role_id);
         
         if (member && role) {
             try {

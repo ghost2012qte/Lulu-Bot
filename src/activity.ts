@@ -82,7 +82,7 @@ export class Activity {
     }
 
     private static async setActivity() {
-        const type = ["PLAYING", "LISTENING", "WATCHING"][botManager.getRandomInt(0,2)] as activityType;
+        const type = ["PLAYING", "LISTENING", "WATCHING"][botManager.getRandomInt(0, 2)] as activityType;
         const options = Activity.getActivityOptions(type);
 
         if (options.length) {

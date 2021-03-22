@@ -1,7 +1,6 @@
 import config from "../config";
 import { Message, TextChannel } from "discord.js";
-import bot, { botManager, roleManager } from "../bot";
-import { RoleType } from "../interfaces";
+import bot, { botManager } from "../bot";
 import { MuteBox } from "../MuteBox";
 import { Command } from "./@command-base"
 
@@ -52,7 +51,7 @@ export class MuteCommand extends Command {
             msg.channel.send(`${mentioned} is already muted. Use unmute command first.`);
         }
         else {
-            const muteRole = await msg.guild.roles.fetch(roleManager.getCreatedRoleId(msg.guild, RoleType.MuteRole));
+            const muteRole = await msg.guild.roles.fetch(config.vbois.mute_role_id);
             try {
                 const mutebox = new MuteBox(mentioned, muteRole, mins * 60000);
                 await mutebox.activate();
@@ -78,7 +77,7 @@ export class MuteCommand extends Command {
     }
 
     tryLog(msg: Message, text: string) {
-        const moderCh = msg.guild.channels.cache.get(config.vbois_moderator_channel_id) as TextChannel;
+        const moderCh = msg.guild.channels.cache.get(config.vbois.moderator_channel_id) as TextChannel;
         if (moderCh) {
             moderCh.send(text);
         }

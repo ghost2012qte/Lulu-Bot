@@ -5,12 +5,6 @@ export interface iLuluGrabEvent {
     channel: TextChannel
 }
 
-export enum RoleType {
-    CommandAccessRole,
-    GivenOnceCapturedRole,
-    MuteRole
-}
-
 export type activityType = "PLAYING"|"LISTENING"|"WATCHING";
 
 export interface iMutedMember {

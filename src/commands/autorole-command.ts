@@ -51,7 +51,7 @@ export class AutoroleCommand implements Command {
     async deserialize() {
         const roleId = this.getCacheRoleId();
         if (roleId) {
-            const vbois = await bot.guilds.fetch(config.vbois_guild_id);
+            const vbois = await bot.guilds.fetch(config.vbois.guild_id);
             const role = await vbois.roles.fetch(roleId);
             this.role = role;
             console.log(`Autorole (${this.role}) was restored`);
@@ -78,7 +78,7 @@ export class AutoroleCommand implements Command {
     }
 
     onGuildMemberAdd = (member: GuildMember) => {
-        if (member.guild.id == config.vbois_guild_id) {
+        if (member.guild.id == config.vbois.guild_id) {
             try {
                 member.roles.add(this.role);
             }

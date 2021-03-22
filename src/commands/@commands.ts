@@ -1,4 +1,3 @@
-import { InitCommand } from "./init-command";
 import { Command } from "./@command-base";
 import { SayCommand } from "./say-command";
 import { ClearCommand } from "./clear-command";
@@ -24,7 +23,6 @@ export const moder_commands: Command[] = [
 
 export const admin_commands: Command[] = [
     ...[
-        new InitCommand(),
         new ClearCommand(),
         new VersionCommand(),
         new PromoteCommand(),

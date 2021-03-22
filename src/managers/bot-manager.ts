@@ -1,10 +1,8 @@
 import config from "../config";
 import { Collection, Guild, GuildChannel, Message, Role, TextChannel, Permissions, GuildMember } from "discord.js";
 import { Activity } from "../activity";
-import { roleManager } from "../bot";
 import { LuluEmoji } from "../emojis";
 import { GrabSchedule } from "../grab-schedule";
-import { RoleType } from "../interfaces";
 
 export class BotManager {
 
@@ -39,27 +37,6 @@ export class BotManager {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    async initRoles(guild: Guild, logFn: (text: string) => void) {
-        logFn('Инициализизация ролей ..');
-        try {
-            const roles = [RoleType.CommandAccessRole, RoleType.GivenOnceCapturedRole, RoleType.MuteRole];
-            for (let i = 0; i < roles.length; ++i) {
-                const roleId = roleManager.getCreatedRoleId(guild, roles[i]);
-                if (roleId) {
-                    const role = await guild.roles.fetch(roleId, false);
-                    logFn(`Роль уже существует ~  ${role}`);
-                }
-                else {
-                    const role = await roleManager.createRole(guild, roles[i]);
-                    logFn(`Роль создана успешно ~  ${role}`);
-                }
-            }
-        }
-        catch (e) {
-            logFn('Упс! Не получилось создать роль ~ ' + e);
-        }
     }
 
     initActivity(guild: Guild, logFn: (text: string) => void) {

@@ -11,7 +11,7 @@ export class DebugCommand extends Command {
 
     async execute(msg: Message) {
         try {
-            const vbois = bot.guilds.cache.get(config.vbois_guild_id);
+            const vbois = bot.guilds.cache.get(config.vbois.guild_id);
             if (vbois) {
                 const members = (await msg.guild.members.fetch()).filter(m => m.presence.status !== 'offline' && !m.user.bot);
                 let response = '';

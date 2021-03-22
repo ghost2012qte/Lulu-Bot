@@ -41,8 +41,8 @@ export class HandCommand extends Command {
         const match = msg.content.match(/throw-in\s+(\d+)/);
         if (match) {
             const mSecs = parseInt(match[1]);
-            const vbois = bot.guilds.cache.get(config.vbois_guild_id);
-            const role = await vbois?.roles.fetch(config.vbois_role_id);
+            const vbois = bot.guilds.cache.get(config.vbois.guild_id);
+            const role = await vbois?.roles.fetch(config.vbois.vboi_role_id);
 
             if (mSecs && vbois && role) {
                 const ch = botManager.getAvailableChannels(vbois, role).random();
