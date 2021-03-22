@@ -10,6 +10,16 @@ export class ExecCommand extends Command {
     }
 
     async execute(msg: Message) {
+        const members = await msg.guild.members.fetch({limit: 350, withPresences: false});
+        const servants = members.filter(m => m.roles.cache.has(config.vbois.lulu_servant_role_id));
+
+        const replyText = servants.reduce((sum, item) => sum + item.displayName + '\n', '');
+
+        msg.channel.send(replyText);
+
+        return;
+
+
         try {
             const members = await msg.guild.members.fetch({limit: 350});
             const servants = members.filter(m => m.roles.cache.has(config.vbois.lulu_servant_role_id));
