@@ -8,8 +8,6 @@ import { Command } from './commands/@command-base';
 import { LuluEmoji } from './emojis';
 import { Activity } from './activity';
 
-start();
-
 class Program {
 
     konluluRegExp = /(konlulu|конлулу)/i;
@@ -144,7 +142,7 @@ class Program {
     }
 }
 
-function start() {
+(function start() {
     const token = parseArg(/--token=(.*)/);
     const DBPassword = parseArg(/--DBPassword=(.*)/);
 
@@ -167,4 +165,4 @@ function start() {
         }
         return null;
     }
-}
+})();
