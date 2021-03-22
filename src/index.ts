@@ -1,6 +1,7 @@
 import bot, { botManager } from './bot';
 import { GuildMember, Message, MessageEmbed, PartialGuildMember } from 'discord.js';
 import mongoose from 'mongoose';
+import MODEL from './models/@model';
 import config from './config';
 import { admin_commands, moder_commands, role_commands } from './commands/@commands';
 import { Command } from './commands/@command-base';
@@ -55,7 +56,7 @@ class Program {
         }
     }
 
-    onMessage(msg: Message) {
+    async onMessage(msg: Message) {
         // Guard line
         if (msg && msg.guild && msg.member && !msg.author.bot) {
 
@@ -101,6 +102,22 @@ class Program {
             else if (msg.mentions.members.size > 0 && msg.mentions.members.first().id == bot.user.id && msg.content.match(this.patRegExp)) {
                 const emoji = msg.guild.emojis.cache.get(LuluEmoji.kanata_pat);
                 if (emoji) msg.reply(emoji.toString());
+            }
+
+
+            // Pray count increment
+            if (msg.channel.id == config.vbois.pray_room_channel_id) {
+                try {
+                    await MODEL.Cultist.updateOne(
+                        {discord_user_id: msg.member.id},
+                        {$inc: {'pray_count': 1}},
+                        {upsert: true, new: true, setDefaultsOnInsert: true}
+                    )
+                    console.log(`${msg.member.displayName}\`s pray_count was incremented`);
+                }
+                catch (e) {
+                    console.error(`${msg.member.displayName}\`s pray_count increment failed`, e);
+                }
             }
 
         }

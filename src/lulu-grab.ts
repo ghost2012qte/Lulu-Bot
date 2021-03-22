@@ -1,6 +1,7 @@
 import Discord, { Guild } from 'discord.js';
 import bot from './bot';
 import config from './config';
+import MODEL from './models/@model';
 import { LuluEmoji } from './emojis';
 import { iLuluGrabEvent } from './interfaces';
 
@@ -77,8 +78,19 @@ export class LuluGrab {
             if (e.captured.length) {
                 const role = await guild.roles.fetch(config.vbois.lulu_servant_role_id);
                 if (role) {
-                    e.captured.forEach(msg => {
+                    e.captured.forEach(async msg => {
                         msg.member.roles.add(role);
+                        try {
+                            await MODEL.Cultist.updateOne(
+                                {discord_user_id: msg.member.id},
+                                {$inc: {'catch_count': 1}},
+                                {upsert: true, new: true, setDefaultsOnInsert: true}
+                            )
+                            console.log(`${msg.member.displayName}\`s catch_count was incremented`);
+                        }
+                        catch (e) {
+                            console.error(`${msg.member.displayName}\`s catch_count increment failed`, e);
+                        }
                     })
                 }
             }
