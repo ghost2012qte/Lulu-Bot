@@ -11,3 +11,8 @@ export interface iMutedMember {
     member_id: string
     removed_roles_ids: string[]
 }
+
+export interface DiscordQuizEvent<T> {
+    answers: T[],
+    selectedAnswer: T
+}

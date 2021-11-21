@@ -26,5 +26,5 @@ schema.virtual('answers', {
     foreignField: 'question'
 })
 
-const model = mongoose.connection.model<iQuestion>('Question', schema);
+const model = mongoose.model<iQuestion>('Question', schema);
 export default model;

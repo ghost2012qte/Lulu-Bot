@@ -15,28 +15,11 @@ class Program {
 
     main(token: string, DBPassword: string) {
         Activity.init();
-        this.connectToMongo(DBPassword);
         bot.on('ready', this.onReady.bind(this));
         bot.on('message', this.onMessage.bind(this));
         bot.on('guildMemberRemove', this.onGuildMemberRemove.bind(this));
         bot.on('error', err => console.log(err));
         bot.login(token);
-    }
-
-    async connectToMongo(DBPassword: string) {
-        try {
-            const db = await mongoose.connect(`mongodb+srv://admin:${DBPassword}@lulufans.2fykj.mongodb.net/luluDB?retryWrites=true&w=majority`, {
-                useNewUrlParser: true,
-                useUnifiedTopology: true,
-                useFindAndModify: false
-            })
-            console.log('luluDB connected');
-            return db;
-        }
-        catch (e) {
-            console.error('mongoDB connection failed', e);
-            throw e;
-        }
     }
 
     async onReady() {
@@ -103,20 +86,20 @@ class Program {
             }
 
 
-            // Pray count increment
-            if (msg.channel.id == config.vbois.pray_room_channel_id) {
-                try {
-                    await MODEL.Cultist.updateOne(
-                        {discord_user_id: msg.member.id},
-                        {$inc: {'pray_count': 1}},
-                        {upsert: true, new: true, setDefaultsOnInsert: true}
-                    )
-                    console.log(`${msg.member.displayName}\`s pray_count was incremented`);
-                }
-                catch (e) {
-                    console.error(`${msg.member.displayName}\`s pray_count increment failed`, e);
-                }
-            }
+            // // Pray count increment
+            // if (msg.channel.id == config.vbois.pray_room_channel_id) {
+            //     try {
+            //         await MODEL.Cultist.updateOne(
+            //             {discord_user_id: msg.member.id},
+            //             {$inc: {'pray_count': 1}},
+            //             {upsert: true, new: true, setDefaultsOnInsert: true}
+            //         )
+            //         console.log(`${msg.member.displayName}\`s pray_count was incremented`);
+            //     }
+            //     catch (e) {
+            //         console.error(`${msg.member.displayName}\`s pray_count increment failed`, e);
+            //     }
+            // }
 
         }
     }
@@ -165,4 +148,4 @@ class Program {
         }
         return null;
     }
-})();
+})()

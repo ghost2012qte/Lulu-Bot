@@ -30,5 +30,5 @@ schema.virtual('questions', {
     foreignField: 'category'
 })
 
-const model = mongoose.connection.model<iAnswer>('Answer', schema);
+const model = mongoose.model<iAnswer>('Answer', schema);
 export default model;

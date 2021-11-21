@@ -26,5 +26,5 @@ const schema = new mongoose.Schema({
         default: () => new Date(Date.UTC(2000, 0, 1, 0, 0, 0, 0))
     }
 })
-const model = mongoose.connection.model<iCultist>('Cultist', schema);
+const model = mongoose.model<iCultist>('Cultist', schema);
 export default model;
